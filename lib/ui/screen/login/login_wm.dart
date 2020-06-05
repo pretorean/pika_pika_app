@@ -3,14 +3,20 @@ import 'package:injector/injector.dart';
 import 'package:pika_pika_app/interactor/auth/auth_interactor.dart';
 import 'package:pika_pika_app/interactor/token/auth_token_storage.dart';
 import 'package:pika_pika_app/ui/app/app.dart';
+import 'package:pika_pika_app/ui/res/strings/strings.dart';
 import 'package:pika_pika_app/ui/screen/login/di/login_screen_component.dart';
+import 'package:regexed_validator/regexed_validator.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
 LoginScreenWidgetModel createLoginScreenWidgetModel(BuildContext context) {
   var component = Injector.of<LoginScreenComponent>(context).component;
 
-  return LoginScreenWidgetModel(component.wmDependencies, component.navigator,
-      component.authInteractor, component.authTokenStorage);
+  return LoginScreenWidgetModel(
+    component.wmDependencies,
+    component.navigator,
+    component.authInteractor,
+    component.authTokenStorage,
+  );
 }
 
 class LoginScreenWidgetModel extends WidgetModel {
@@ -19,8 +25,16 @@ class LoginScreenWidgetModel extends WidgetModel {
   final AuthInteractor _authInteractor;
   final AuthTokenStorage _tokenStorage;
 
+  final loadState = StreamedState<bool>(false);
+
   final Action switchToRegisterAction = Action();
   final Action loginButtonAction = Action();
+
+  final TextFieldStreamedState phoneTextState = TextFieldStreamedState('');
+  final TextFieldStreamedState passwordTextState = TextFieldStreamedState('');
+
+  final TextEditingAction phoneChanges = TextEditingAction();
+  final TextEditingAction passwordChanges = TextEditingAction();
 
   LoginScreenWidgetModel(
     WidgetModelDependencies dependencies,
@@ -47,15 +61,36 @@ class LoginScreenWidgetModel extends WidgetModel {
   }
 
   void _handleLoginButton() {
+    if (!validator.phone(phoneChanges.value ?? '')) {
+      phoneTextState.error(IncorrectTextException(loginEnterPhone));
+      return;
+    } else {
+      phoneTextState.content(phoneChanges.value);
+    }
+
+    if (passwordChanges.value?.isEmpty ?? true) {
+      passwordTextState.error(IncorrectTextException(loginEnterPassword));
+      return;
+    } else {
+      passwordTextState.content(passwordChanges.value);
+    }
+
+    loadState.accept(true);
     doFutureHandleError(
-        _authInteractor.login(
-          email: 'ivamisha@mail.ru',
-          password: '123',
-        ), (String token) {
-      _tokenStorage.saveAuthorization(token);
-      if (_tokenStorage.hasToken) {
-        _openScreen(Router.root);
-      }
-    });
+      _authInteractor.login(
+        phone: phoneChanges.value,
+        password: passwordChanges.value,
+      ),
+      (String token) {
+        loadState.accept(false);
+        _tokenStorage.saveAuthorization(token);
+        if (_tokenStorage.hasToken) {
+          _openScreen(Router.root);
+        }
+      },
+      onError: (e) {
+        loadState.accept(false);
+      },
+    );
   }
 }

@@ -31,8 +31,8 @@ abstract class WidgetComponent implements Component {
 
     wmDependencies = WidgetModelDependencies(
       errorHandler: StandardErrorHandler(
-        messageController,
-        dialogController,
+        this.messageController,
+        this.dialogController,
         appComponent.scInteractor, // TODO: не всегда нужно
       ),
     );

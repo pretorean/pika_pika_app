@@ -35,7 +35,7 @@ class _RegisterScreenState extends WidgetState<RegisterScreenWidgetModel> {
               _buildLogoImage(),
               _buildFirstNameField(),
               _buildLastNameField(),
-              _buildEmailField(),
+              _buildPhoneField(),
               _buildPasswordField(),
               _buildRegisterButton(context),
               _buildButtonToLoginMode(),
@@ -54,7 +54,7 @@ class _RegisterScreenState extends WidgetState<RegisterScreenWidgetModel> {
     );
   }
 
-  Widget _buildEmailField() {
+  Widget _buildPhoneField() {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 8.0),
       child: TextFormField(

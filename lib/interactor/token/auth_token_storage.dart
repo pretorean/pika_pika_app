@@ -31,14 +31,15 @@ class AuthTokenStorage {
 
   /// сохранение авторизации в хранилище
   Future<void> saveAuthorization(String token) async {
+    _token = token;
     await _preferencesHelper.set(_accessTokenKey, token);
     return;
   }
 
   /// удаление авторизации из хранилища
   Future<void> deleteAuthorization() async {
-    await _preferencesHelper.remove(_accessTokenKey);
     _token = null;
+    await _preferencesHelper.remove(_accessTokenKey);
     return;
   }
 

@@ -52,7 +52,7 @@ class RegisterScreenWidgetModel extends WidgetModel {
         _authInteractor.register(
           firstName: 'Михаил',
           lastName: 'Иванов',
-          email: 'ivamisha@mail.ru',
+          phone: 'ivamisha@mail.ru',
           password: '123',
         ), (bool isSuccess) {
       if (isSuccess) {

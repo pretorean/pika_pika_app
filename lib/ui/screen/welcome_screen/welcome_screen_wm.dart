@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart' hide Action;
 import 'package:injector/injector.dart';
-import 'package:pika_pika_app/interactor/counter/counter_interactor.dart';
+import 'package:pika_pika_app/interactor/session/session_changed_interactor.dart';
 import 'package:pika_pika_app/ui/screen/welcome_screen/di/welcome_screen_component.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
@@ -11,46 +11,34 @@ WelcomeScreenWidgetModel createWelcomeWidgetModel(BuildContext context) {
   return WelcomeScreenWidgetModel(
     component.wmDependencies,
     component.navigator,
-    component.counterInteractor,
+    component.sessionChangedInteractor,
   );
 }
 
 /// [WidgetModel] для экрана <Welcome>
 class WelcomeScreenWidgetModel extends WidgetModel {
-  final CounterInteractor _counterInteractor;
   final NavigatorState navigator;
 
-  StreamedState<int> counterState = StreamedState();
+  final SessionChangedInteractor sessionChangedInteractor;
 
   Action nextAction = Action();
 
   WelcomeScreenWidgetModel(
     WidgetModelDependencies dependencies,
     this.navigator,
-    this._counterInteractor,
+    this.sessionChangedInteractor,
   ) : super(dependencies);
 
   @override
   void onLoad() {
     super.onLoad();
-    _listenToStreams();
   }
 
-  void _listenToStreams() {
-    _listenToActions();
-
-    subscribe(
-      _counterInteractor.counterObservable,
-      (c) => counterState.accept(c.count),
-    );
-  }
-
-  void _listenToActions() {
-    bind(
-      nextAction,
-      (_) {
-        _counterInteractor.incrementCounter();
-      },
-    );
+  @override
+  void onBind() {
+    super.onBind();
+    bind(nextAction, (_) {
+      sessionChangedInteractor.forceLogout();
+    });
   }
 }

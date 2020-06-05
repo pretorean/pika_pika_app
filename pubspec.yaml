@@ -52,6 +52,12 @@ dependencies:
   #masked text
   string_mask: ^0.1.0
 
+  # размер экрана на десктопе
+  # desktop_window: ^0.1.0
+
+  # валидация номера телефона
+  regexed_validator: ^1.0.4
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
