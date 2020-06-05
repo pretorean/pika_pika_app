@@ -81,7 +81,7 @@ class _LoginScreenState extends WidgetState<LoginScreenWidgetModel> {
             decoration: InputDecoration(
               labelText: 'Телефон',
               errorText:
-                  state.hasError ? _getFieldErrorText(state.error) : null,
+                  state.hasError ? _getFieldErrorText(state.error.e) : null,
             ),
           );
         },
@@ -102,7 +102,7 @@ class _LoginScreenState extends WidgetState<LoginScreenWidgetModel> {
             decoration: InputDecoration(
               labelText: 'Пароль',
               errorText:
-                  state.hasError ? _getFieldErrorText(state.error) : null,
+                  state.hasError ? _getFieldErrorText(state.error.e) : null,
             ),
           );
         },
