@@ -2,16 +2,16 @@ import 'package:flutter/foundation.dart';
 
 /// Объект запроса
 class LoginRequest {
-  final String email;
+  final String phone;
   final String password;
 
   LoginRequest({
-    @required this.email,
+    @required this.phone,
     @required this.password,
   });
 
   Map<String, dynamic> get json => {
-        'email': email,
+        'phone': phone,
         'password': password,
       };
 }

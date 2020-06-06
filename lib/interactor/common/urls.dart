@@ -36,7 +36,7 @@ abstract class Url {
 abstract class AuthUrl {
   static String get authUrl => '/api';
 
-  static String get registerUrl => '$authUrl/creatUser.php';
+  static String get registerUrl => '$authUrl/register.php';
 
   static String get loginUrl => '$authUrl/login.php';
 }

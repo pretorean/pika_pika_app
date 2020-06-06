@@ -32,6 +32,10 @@ class SplashScreenWidgetModel extends WidgetModel {
   @override
   void onLoad() {
     super.onLoad();
+//    if (Platform.isMacOS) {
+//      DesktopWindow.setMaxWindowSize(Size(375, 812));
+//      DesktopWindow.setMinWindowSize(Size(375, 812));
+//    }
     _loadApp();
   }
 

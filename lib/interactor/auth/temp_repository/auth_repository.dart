@@ -15,26 +15,26 @@ class AuthRepository {
   Future<bool> register({
     @required String firstName,
     @required String lastName,
-    @required String email,
+    @required String phone,
     @required String password,
   }) async {
     var body = RegisterRequest(
       firstName: firstName,
       lastName: lastName,
-      email: email,
+      phone: phone,
       password: password,
     ).json;
     var response = await _http.post(AuthUrl.registerUrl, body: body);
-    return response.statusCode == 200;
+    return response.statusCode == 204;
   }
 
   /// авторизация
   Future<String> login({
-    @required String email,
+    @required String phone,
     @required String password,
   }) async {
     var body = LoginRequest(
-      email: email,
+      phone: phone,
       password: password,
     ).json;
     var response = await _http.post(AuthUrl.loginUrl, body: body);

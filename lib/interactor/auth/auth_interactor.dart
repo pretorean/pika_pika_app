@@ -11,23 +11,23 @@ class AuthInteractor {
   Future<bool> register({
     @required String firstName,
     @required String lastName,
-    @required String email,
+    @required String phone,
     @required String password,
   }) async =>
       repository.register(
         firstName: firstName,
         lastName: lastName,
-        email: email,
+        phone: phone,
         password: password,
       );
 
   /// авторизация
   Future<String> login({
-    @required String email,
+    @required String phone,
     @required String password,
   }) async =>
       repository.login(
-        email: email,
+        phone: phone,
         password: password,
       );
 }

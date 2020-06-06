@@ -74,6 +74,7 @@ class AppComponent implements Component {
       ),
       errorMapper: DefaultStatusMapper(),
       headersBuilder: DefaultHeaderBuilder(authStorage),
+
     );
     return dioHttp;
   }

@@ -20,7 +20,22 @@ class _RegisterScreenState extends WidgetState<RegisterScreenWidgetModel> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: Injector.of<RegisterScreenComponent>(context).component.scaffoldKey,
-      body: _buildBody(),
+      body: SafeArea(
+        child: Center(
+          child: StreamedStateBuilder<bool>(
+            streamedState: wm.loadState,
+            builder: (context, bool isLoading) {
+              if (isLoading) {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              } else {
+                return _buildBody();
+              }
+            },
+          ),
+        ),
+      ),
     );
   }
 
@@ -35,7 +50,7 @@ class _RegisterScreenState extends WidgetState<RegisterScreenWidgetModel> {
               _buildLogoImage(),
               _buildFirstNameField(),
               _buildLastNameField(),
-              _buildEmailField(),
+              _buildPhoneField(),
               _buildPasswordField(),
               _buildRegisterButton(context),
               _buildButtonToLoginMode(),
@@ -54,15 +69,23 @@ class _RegisterScreenState extends WidgetState<RegisterScreenWidgetModel> {
     );
   }
 
-  Widget _buildEmailField() {
+  Widget _buildPhoneField() {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 8.0),
-      child: TextFormField(
-        key: Key('email'),
-        keyboardType: TextInputType.emailAddress,
-        decoration: InputDecoration(
-          labelText: 'Email',
-        ),
+      child: TextFieldStateBuilder(
+        state: wm.phoneTextState,
+        stateBuilder: (context, state) {
+          return TextFormField(
+            key: Key('phone'),
+            controller: wm.phoneChanges.controller,
+            keyboardType: TextInputType.emailAddress,
+            decoration: InputDecoration(
+              labelText: 'Телефон',
+              errorText:
+                  state.hasError ? _getFieldErrorText(state.error.e) : null,
+            ),
+          );
+        },
       ),
     );
   }
@@ -70,12 +93,20 @@ class _RegisterScreenState extends WidgetState<RegisterScreenWidgetModel> {
   Widget _buildPasswordField() {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 8.0),
-      child: TextFormField(
-        key: Key('password'),
-        obscureText: true,
-        decoration: InputDecoration(
-          labelText: 'Пароль',
-        ),
+      child: TextFieldStateBuilder(
+        state: wm.passwordTextState,
+        stateBuilder: (context, state) {
+          return TextFormField(
+            key: Key('password'),
+            controller: wm.passwordChanges.controller,
+            obscureText: true,
+            decoration: InputDecoration(
+              labelText: 'Пароль',
+              errorText:
+                  state.hasError ? _getFieldErrorText(state.error.e) : null,
+            ),
+          );
+        },
       ),
     );
   }
@@ -125,12 +156,20 @@ class _RegisterScreenState extends WidgetState<RegisterScreenWidgetModel> {
   Widget _buildFirstNameField() {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 8.0),
-      child: TextFormField(
-        key: Key('firstName'),
-        keyboardType: TextInputType.text,
-        decoration: InputDecoration(
-          labelText: 'Имя',
-        ),
+      child: TextFieldStateBuilder(
+        state: wm.firstNameTextState,
+        stateBuilder: (context, state) {
+          return TextFormField(
+            key: Key('firstName'),
+            controller: wm.firstNameChanges.controller,
+            keyboardType: TextInputType.emailAddress,
+            decoration: InputDecoration(
+              labelText: 'Имя',
+              errorText:
+                  state.hasError ? _getFieldErrorText(state.error.e) : null,
+            ),
+          );
+        },
       ),
     );
   }
@@ -138,13 +177,28 @@ class _RegisterScreenState extends WidgetState<RegisterScreenWidgetModel> {
   Widget _buildLastNameField() {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 8.0),
-      child: TextFormField(
-        key: Key('lastName'),
-        keyboardType: TextInputType.text,
-        decoration: InputDecoration(
-          labelText: 'Фамилия',
-        ),
+      child: TextFieldStateBuilder(
+        state: wm.lastNameTextState,
+        stateBuilder: (context, state) {
+          return TextFormField(
+            key: Key('lastName'),
+            controller: wm.lastNameChanges.controller,
+            keyboardType: TextInputType.text,
+            decoration: InputDecoration(
+              labelText: 'Фамилия',
+              errorText:
+                  state.hasError ? _getFieldErrorText(state.error.e) : null,
+            ),
+          );
+        },
       ),
     );
+  }
+
+  String _getFieldErrorText(dynamic error) {
+    if (error is IncorrectTextException) {
+      return error.message;
+    }
+    return '';
   }
 }
