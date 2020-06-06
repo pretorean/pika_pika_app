@@ -36,17 +36,121 @@ class _InitiativesScreenState
   }
 
   Widget _buildBody() {
-
     return Stack(
       children: <Widget>[
-        Header(wm),
+        CustomScrollView(
+          slivers: <Widget>[
+            SliverToBoxAdapter(
+              child: Header(wm),
+            ),
+            SliverPadding(padding: EdgeInsets.only(top: 5)),
+            SliverList(
+                delegate: SliverChildBuilderDelegate((context, index) {
+              return InitiativeItem();
+            }, childCount: 2))
+          ],
+        )
       ],
     );
   }
 }
 
-class Header extends StatelessWidget {
+class InitiativeItem extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
+      child: Container(
+        height: 200,
+        decoration: BoxDecoration(
+          color: white,
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Stack(
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.only(top: 20, bottom: 32),
+              child: Container(
+                width: 3,
+                color: blue1,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(
+                  left: 23, right: 23, top: 20, bottom: 32),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Row(
+                    children: <Widget>[
+                      Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(50),
+                            color: Color(0xFF63FF8F)),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 10, horizontal: 20),
+                          child: Text(
+                            'Социальные проблемы',
+                            style: TextStyle(
+                                color: text1,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w600),
+                          ),
+                        ),
+                      ),
+                      Spacer(),
+                      SvgPicture.asset(
+                        icShare,
+                        height: 36,
+                        width: 36,
+                      )
+                    ],
+                  ),
+                  SizedBox(height: 10),
+                  Text(
+                    'Иван Иваненко',
+                    style: TextStyle(
+                        color: blue1,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500),
+                  ),
+                  SizedBox(height: 6),
+                  Text(
+                    'Разбитые дороги на Каслинской в ужасном состоянии',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14,
+                      color: text1,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 16
+                  ),
+                  Row(
+                    children: <Widget>[
+                      SvgPicture.asset(icLikes),
+                      SizedBox(width: 6,),
+                      Text('687', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: text2),),
+                      SizedBox(width: 10,),
+                      SvgPicture.asset(icViews),
+                      SizedBox(width: 6,),
+                      Text('687', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: text2),),
+                      SizedBox(width: 30,),
+                      Text('01.02.2020', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: text2),),
+                    ],
+                  )
+                ],
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
 
+class Header extends StatelessWidget {
   final InitiativesScreenWidgetModel wm;
 
   Header(this.wm);
@@ -108,14 +212,18 @@ class Header extends StatelessWidget {
               StreamedStateBuilder<InitiativesFilter>(
                 streamedState: wm.filterState,
                 builder: (context, filter) {
-                  return  Row(
+                  return Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      FilterButton(initiativesFilterButtonActive, filter == InitiativesFilter.active, () {
+                      FilterButton(initiativesFilterButtonActive,
+                          filter == InitiativesFilter.active, () {
                         wm.filterAction.accept(InitiativesFilter.active);
                       }),
-                      SizedBox(width: 10,),
-                      FilterButton(initiativesFilterButtonSolved, filter == InitiativesFilter.solved, () {
+                      SizedBox(
+                        width: 10,
+                      ),
+                      FilterButton(initiativesFilterButtonSolved,
+                          filter == InitiativesFilter.solved, () {
                         wm.filterAction.accept(InitiativesFilter.solved);
                       }),
                     ],
@@ -129,8 +237,6 @@ class Header extends StatelessWidget {
     );
   }
 }
-
-
 
 class FilterButton extends StatelessWidget {
   final String title;

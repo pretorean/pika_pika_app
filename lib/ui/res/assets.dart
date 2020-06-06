@@ -7,3 +7,6 @@ const String icAlert = '$_baseResPath/ic_alert.svg';
 const String icSearch = '$_baseResPath/ic_search.svg';
 const String icQrCode = '$_baseResPath/ic_qr_code.svg';
 const String icSettings = '$_baseResPath/ic_settings.svg';
+const String icShare = '$_baseResPath/ic_share.svg';
+const String icLikes = '$_baseResPath/ic_likes.svg';
+const String icViews = '$_baseResPath/ic_views.svg';
