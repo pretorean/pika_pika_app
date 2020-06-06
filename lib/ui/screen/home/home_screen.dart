@@ -35,9 +35,7 @@ class _HomeScreenState extends WidgetState<HomeScreenWidgetModel> {
         return Stack(
           children: <Widget>[
             _getBodyPage(homeTab),
-            BottomNavigation(homeTab, (tab) {
-              wm.bottomNavigationAction.accept(tab);
-            })
+            BottomNavigation(homeTab)
           ],
         );
       },

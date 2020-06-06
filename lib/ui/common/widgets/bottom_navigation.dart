@@ -1,20 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:pika_pika_app/ui/app/app.dart';
 import 'package:pika_pika_app/ui/res/assets.dart';
 import 'package:pika_pika_app/ui/res/colors.dart';
 import 'package:pika_pika_app/ui/screen/home/home_tab.dart';
 
 class BottomNavigation extends StatelessWidget {
   final HomeTab currentTab;
-  final Function(HomeTab tab) onTap;
 
   final activeColor = Color(0xFF669AFE);
   final inactiveColor = Color(0xFFCADBFE);
 
-  BottomNavigation(this.currentTab, this.onTap);
+  BottomNavigation(this.currentTab);
 
   @override
   Widget build(BuildContext context) {
+    final navigator = Navigator.of(context);
+
     return Positioned(
       bottom: 0,
       left: 0,
@@ -37,27 +39,43 @@ class BottomNavigation extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
-            SvgPicture.asset(icInitiativesTab,
-                color: getButtonColor(HomeTab.initiatives)),
-            SvgPicture.asset(icLeadersTab,
-                color: getButtonColor(HomeTab.leaders)),
-            Container(
-              height: 60,
-              width: 60,
-              decoration: ShapeDecoration(
-                  color: Color(0xFFCADBFE), shape: CircleBorder()),
-              child: Center(
-                  child: SvgPicture.asset(
-                icAddTab,
-                height: 20,
-                width: 20,
-              )),
-            ),
-            SvgPicture.asset(icProfileTab,
-                color: getButtonColor(HomeTab.profile)),
-            SvgPicture.asset(icMapTab, color: getButtonColor(HomeTab.map))
+            getButton(navigator, HomeTab.initiatives, icInitiativesTab),
+            getButton(navigator, HomeTab.leaders, icLeadersTab),
+            getAddButton(navigator),
+            getButton(navigator, HomeTab.profile, icProfileTab),
+            getButton(navigator, HomeTab.map, icMapTab),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget getAddButton(NavigatorState navigator) {
+    return GestureDetector(
+      onTap: () {  },
+      child: Container(
+        height: 60,
+        width: 60,
+        decoration: ShapeDecoration(
+            color: Color(0xFFCADBFE), shape: CircleBorder()),
+        child: Center(
+            child: SvgPicture.asset(
+              icAddTab,
+              height: 20,
+              width: 20,
+            )),
+      ),
+    );
+  }
+
+  Widget getButton(NavigatorState navigator, HomeTab tab, String iconAsset) {
+    return GestureDetector(
+      onTap: () {
+        onTabClick(navigator, tab);
+      },
+      child: SvgPicture.asset(
+        iconAsset,
+        color: getButtonColor(tab),
       ),
     );
   }
@@ -67,8 +85,22 @@ class BottomNavigation extends StatelessWidget {
     return color;
   }
 
-  ButtonNavigationButton createButton(HomeTab tab) {
-    return ButtonNavigationButton(currentTab == tab, () => onTap(tab));
+  void onTabClick(NavigatorState navigator, HomeTab tab) {
+    if (tab == currentTab) return;
+
+    switch (tab) {
+      case HomeTab.initiatives:
+        navigator.pushNamed(Router.initiativesScreen);
+        break;
+      case HomeTab.leaders:
+        break;
+      case HomeTab.add:
+        break;
+      case HomeTab.profile:
+        break;
+      case HomeTab.map:
+        break;
+    }
   }
 }
 

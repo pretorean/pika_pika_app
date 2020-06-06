@@ -4,9 +4,11 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:injector/injector.dart';
 import 'package:pika_pika_app/domain/post_message.dart';
+import 'package:pika_pika_app/ui/common/widgets/bottom_navigation.dart';
 import 'package:pika_pika_app/ui/res/assets.dart';
 import 'package:pika_pika_app/ui/res/colors.dart';
 import 'package:pika_pika_app/ui/res/strings/strings.dart';
+import 'package:pika_pika_app/ui/screen/home/home_tab.dart';
 import 'package:pika_pika_app/ui/screen/initiatives/initiatives_filter.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
@@ -54,14 +56,23 @@ class _InitiativesScreenState
                 child: (context, posts) {
                   return SliverList(
                     delegate: SliverChildListDelegate(
-                      posts.map((post) => InitiativeItem(post)).toList(),
+                      _getItems(posts)
                     ),
                   );
                 })
           ],
-        )
+        ),
+        BottomNavigation(HomeTab.initiatives)
       ],
     );
+  }
+
+  List<Widget> _getItems(List<PostMessage> posts) {
+    final items = <Widget>[];
+    final initiativeItems = posts.map((post) => InitiativeItem(post)).toList();
+    items.addAll(initiativeItems);
+    items.add(Container(height: 115,));
+    return items;
   }
 }
 
