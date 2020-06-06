@@ -18,10 +18,10 @@ class InitiativesScreen extends MwwmWidget<InitiativesScreenComponent> {
   InitiativesScreen([
     WidgetModelBuilder widgetModelBuilder = createInitiativesScreenWidgetModel,
   ]) : super(
-          dependenciesBuilder: (context) => InitiativesScreenComponent(context),
-          widgetStateBuilder: () => _InitiativesScreenState(),
-          widgetModelBuilder: widgetModelBuilder,
-        );
+    dependenciesBuilder: (context) => InitiativesScreenComponent(context),
+    widgetStateBuilder: () => _InitiativesScreenState(),
+    widgetModelBuilder: widgetModelBuilder,
+  );
 }
 
 class _InitiativesScreenState
@@ -30,7 +30,8 @@ class _InitiativesScreenState
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xFFDBE8FF),
-      key: Injector.of<InitiativesScreenComponent>(context)
+      key: Injector
+          .of<InitiativesScreenComponent>(context)
           .component
           .scaffoldKey,
       body: SafeArea(child: _buildBody()),
@@ -57,9 +58,7 @@ class _InitiativesScreenState
                 ),
                 child: (context, posts) {
                   return SliverList(
-                    delegate: SliverChildListDelegate(
-                      _getItems(posts)
-                    ),
+                    delegate: SliverChildListDelegate(_getItems(posts)),
                   );
                 })
           ],
@@ -71,9 +70,12 @@ class _InitiativesScreenState
 
   List<Widget> _getItems(List<PostMessage> posts) {
     final items = <Widget>[];
-    final initiativeItems = posts.map((post) => InitiativeItem(post, wm)).toList();
+    final initiativeItems =
+    posts.map((post) => InitiativeItem(post, wm)).toList();
     items.addAll(initiativeItems);
-    items.add(Container(height: 115,));
+    items.add(Container(
+      height: 115,
+    ));
     return items;
   }
 }
@@ -84,8 +86,8 @@ class HeaderSliverDelegate extends SliverPersistentHeaderDelegate {
   HeaderSliverDelegate(this.wm);
 
   @override
-  Widget build(
-      BuildContext context, double shrinkOffset, bool overlapsContent) {
+  Widget build(BuildContext context, double shrinkOffset,
+      bool overlapsContent) {
     return Header(wm);
   }
 
@@ -179,27 +181,17 @@ class InitiativeItem extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                         fontSize: 14,
                         color: text1,
-
                       ),
                     ),
                     SizedBox(height: 16),
                     Row(
                       children: <Widget>[
-                        SvgPicture.asset(icLikes),
-                        SizedBox(
-                          width: 6,
-                        ),
-                        Text(
-                          initiative.likes.toString(),
-                          style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w500,
-                              color: text2),
-                        ),
+                        getLikeSection(),
+                        Spacer(),
                         SizedBox(
                           width: 10,
                         ),
-                        SvgPicture.asset(icViews),
+                        SvgPicture.asset(icViews, color: Color(0xFF757A93),),
                         SizedBox(
                           width: 6,
                         ),
@@ -229,6 +221,42 @@ class InitiativeItem extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  Widget getLikeSection() {
+    final picture = SvgPicture.asset(initiative.isLiked ? icLiked : icLike);
+
+    Widget text;
+
+    if (initiative.isLiked) {
+      text = Text(
+          initiative.likes.toString(),
+          style: TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.w600,
+            color: orange,
+          )
+      );
+    } else {
+      text = Text(
+        'Поддержать',
+          style: TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.w600,
+            color: blue1,
+          )
+      );
+    }
+
+    return Row(
+      children: <Widget>[
+        picture,
+        SizedBox(
+          width: 6,
+        ),
+        text
+      ],
     );
   }
 }
@@ -305,15 +333,15 @@ class Header extends StatelessWidget {
                     children: <Widget>[
                       FilterButton(initiativesFilterButtonActive,
                           filter == InitiativesFilter.active, () {
-                        wm.filterAction.accept(InitiativesFilter.active);
-                      }),
+                            wm.filterAction.accept(InitiativesFilter.active);
+                          }),
                       SizedBox(
                         width: 10,
                       ),
                       FilterButton(initiativesFilterButtonSolved,
                           filter == InitiativesFilter.solved, () {
-                        wm.filterAction.accept(InitiativesFilter.solved);
-                      }),
+                            wm.filterAction.accept(InitiativesFilter.solved);
+                          }),
                     ],
                   );
                 },
