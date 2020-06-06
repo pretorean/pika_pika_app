@@ -1,0 +1,1 @@
+enum InitiativesFilter { active, solved}

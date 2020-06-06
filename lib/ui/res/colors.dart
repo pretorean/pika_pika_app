@@ -20,7 +20,7 @@ const Color colorAccent = _purple,
     blue2 = _aliceBlue,
     text1 = _midnightBlue,
     text2 = _blueHaze,
-    yellow1 = _dandelion;
+    yellow1 = _capeHoney;
 
 // Основная палитра (http://www.color-blindness.com/color-name-hue/)
 const Color _oxxfordBlue = Color(0xFF263238),
@@ -36,7 +36,7 @@ const Color _oxxfordBlue = Color(0xFF263238),
     _aliceBlue = Color(0xFFDBE8FF),
     _midnightBlue = Color(0xFF141F48),
     _blueHaze = Color(0xFFAFB3CA),
-    _dandelion = Color(0xFFFFD15A),
+    _capeHoney = Color(0xFFFFE6A5),
     _ultramarine = Color(0xFF0E1E8E);
 
 
