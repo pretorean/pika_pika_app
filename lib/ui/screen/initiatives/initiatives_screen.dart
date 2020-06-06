@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:injector/injector.dart';
+import 'package:pika_pika_app/domain/post_message.dart';
 import 'package:pika_pika_app/ui/res/assets.dart';
 import 'package:pika_pika_app/ui/res/colors.dart';
 import 'package:pika_pika_app/ui/res/strings/strings.dart';
@@ -40,14 +41,23 @@ class _InitiativesScreenState
       children: <Widget>[
         CustomScrollView(
           slivers: <Widget>[
-            SliverToBoxAdapter(
-              child: Header(wm),
-            ),
+            SliverPersistentHeader(
+                pinned: true, delegate: HeaderSliverDelegate(wm)),
             SliverPadding(padding: EdgeInsets.only(top: 5)),
-            SliverList(
-                delegate: SliverChildBuilderDelegate((context, index) {
-              return InitiativeItem();
-            }, childCount: 2))
+            EntityStateBuilder<List<PostMessage>>(
+                streamedState: wm.initiativesState,
+                loadingChild: SliverToBoxAdapter(
+                  child: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                ),
+                child: (context, posts) {
+                  return SliverList(
+                    delegate: SliverChildListDelegate(
+                      posts.map((post) => InitiativeItem(post)).toList(),
+                    ),
+                  );
+                })
           ],
         )
       ],
@@ -55,7 +65,35 @@ class _InitiativesScreenState
   }
 }
 
+class HeaderSliverDelegate extends SliverPersistentHeaderDelegate {
+  final InitiativesScreenWidgetModel wm;
+
+  HeaderSliverDelegate(this.wm);
+
+  @override
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
+    return Header(wm);
+  }
+
+  @override
+  double get maxExtent => 130;
+
+  @override
+  // TODO: implement minExtent
+  double get minExtent => 130;
+
+  @override
+  bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) {
+    return false;
+  }
+}
+
 class InitiativeItem extends StatelessWidget {
+  final PostMessage initiative;
+
+  InitiativeItem(this.initiative);
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -91,7 +129,7 @@ class InitiativeItem extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(
                               vertical: 10, horizontal: 20),
                           child: Text(
-                            'Социальные проблемы',
+                            initiative.type,
                             style: TextStyle(
                                 color: text1,
                                 fontSize: 12,
@@ -109,7 +147,7 @@ class InitiativeItem extends StatelessWidget {
                   ),
                   SizedBox(height: 10),
                   Text(
-                    'Иван Иваненко',
+                    initiative.firstName + initiative.lastName,
                     style: TextStyle(
                         color: blue1,
                         fontSize: 12,
@@ -117,27 +155,51 @@ class InitiativeItem extends StatelessWidget {
                   ),
                   SizedBox(height: 6),
                   Text(
-                    'Разбитые дороги на Каслинской в ужасном состоянии',
+                    initiative.title,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 14,
                       color: text1,
                     ),
                   ),
-                  SizedBox(
-                    height: 16
-                  ),
+                  SizedBox(height: 16),
                   Row(
                     children: <Widget>[
                       SvgPicture.asset(icLikes),
-                      SizedBox(width: 6,),
-                      Text('687', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: text2),),
-                      SizedBox(width: 10,),
+                      SizedBox(
+                        width: 6,
+                      ),
+                      Text(
+                        initiative.likes.toString(),
+                        style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                            color: text2),
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
                       SvgPicture.asset(icViews),
-                      SizedBox(width: 6,),
-                      Text('687', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: text2),),
-                      SizedBox(width: 30,),
-                      Text('01.02.2020', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: text2),),
+                      SizedBox(
+                        width: 6,
+                      ),
+                      Text(
+                        initiative.views.toString(),
+                        style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                            color: text2),
+                      ),
+                      SizedBox(
+                        width: 30,
+                      ),
+                      Text(
+                        initiative.createDate,
+                        style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400,
+                            color: text2),
+                      ),
                     ],
                   )
                 ],
@@ -162,12 +224,17 @@ class Header extends StatelessWidget {
         Container(
           padding: EdgeInsets.only(left: 16, right: 16, top: 16, bottom: 24),
           decoration: BoxDecoration(
-            color: white,
-            borderRadius: BorderRadius.only(
-              bottomLeft: Radius.circular(30),
-              bottomRight: Radius.circular(30),
-            ),
-          ),
+              color: white,
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(30),
+                bottomRight: Radius.circular(30),
+              ),
+              boxShadow: [
+                BoxShadow(
+                    color: Color(0xFFE2E8F4),
+                    offset: Offset(0, 10),
+                    blurRadius: 30)
+              ]),
           child: Column(
             children: <Widget>[
               Row(
