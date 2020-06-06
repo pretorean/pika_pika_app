@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:injector/injector.dart';
+import 'package:pika_pika_app/ui/screen/initiatives/initiatives_screen.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
 import 'di/home_screen_component.dart';
@@ -17,6 +18,9 @@ class HomeScreen extends MwwmWidget<HomeScreenComponent> {
 }
 
 class _HomeScreenState extends WidgetState<HomeScreenWidgetModel> {
+
+  int _currentTab = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,43 +33,31 @@ class _HomeScreenState extends WidgetState<HomeScreenWidgetModel> {
   Widget _buildBody() {
     return Stack(
       children: <Widget>[
-        BottomNavigation(),
+        _getBodyPage(),
+        BottomNavigation(_currentTab, (index) {
+          setState(() {
+            _currentTab = index;
+          });
+        })
       ],
     );
   }
+
+  Widget _getBodyPage() {
+    if (_currentTab == 0) {
+      return InitiativesScreen();
+    } else {
+      return Container();
+    }
+  }
 }
 
-//class Header extends StatelessWidget {
-//  @override
-//  Widget build(BuildContext context) {
-//    return Positioned(
-//      top: 0,
-//      left: 0,
-//      right: 0,
-//      child: Container(
-//        height: 170,
-//        decoration: BoxDecoration(
-//          color: Color(0xFFF8FBFB),
-//          borderRadius: BorderRadius.only(
-//            bottomLeft: Radius.circular(20),
-//            bottomRight: Radius.circular(20),
-//          ),
-//        ),
-//      ),
-//    );
-//  }
-//}
-
-
-class BottomNavigation extends StatefulWidget {
-  @override
-  _BottomNavigationState createState() => _BottomNavigationState();
-}
-
-class _BottomNavigationState extends State<BottomNavigation> {
-
+class BottomNavigation extends StatelessWidget {
   final int tabNumber = 4;
-  int _currentTab = 0;
+  final int currentTab;
+  final Function(int index) onTap;
+
+  BottomNavigation(this.currentTab, this.onTap);
 
   @override
   Widget build(BuildContext context) {
@@ -92,21 +84,12 @@ class _BottomNavigationState extends State<BottomNavigation> {
     );
   }
 
-
-
   ButtonNavigationButton createButton(int index) {
-    return ButtonNavigationButton(_currentTab == index, () => _setCurrentTab(index));
-  }
-
-  void _setCurrentTab(int tab) {
-    setState(() {
-      _currentTab = tab;
-    });
+    return ButtonNavigationButton(currentTab == index, () => onTap(index));
   }
 }
 
 class ButtonNavigationButton extends StatelessWidget {
-
   final Function onTap;
   final bool isSelected;
 
@@ -126,4 +109,3 @@ class ButtonNavigationButton extends StatelessWidget {
     );
   }
 }
-
