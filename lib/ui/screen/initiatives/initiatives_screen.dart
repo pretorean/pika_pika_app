@@ -54,9 +54,7 @@ class _InitiativesScreenState
                 ),
                 child: (context, posts) {
                   return SliverList(
-                    delegate: SliverChildListDelegate(
-                      _getItems(posts)
-                    ),
+                    delegate: SliverChildListDelegate(_getItems(posts)),
                   );
                 })
           ],
@@ -68,9 +66,12 @@ class _InitiativesScreenState
 
   List<Widget> _getItems(List<PostMessage> posts) {
     final items = <Widget>[];
-    final initiativeItems = posts.map((post) => InitiativeItem(post, wm)).toList();
+    final initiativeItems =
+        posts.map((post) => InitiativeItem(post, wm)).toList();
     items.addAll(initiativeItems);
-    items.add(Container(height: 115,));
+    items.add(Container(
+      height: 115,
+    ));
     return items;
   }
 }
@@ -162,7 +163,7 @@ class InitiativeItem extends StatelessWidget {
                     ),
                     SizedBox(height: 10),
                     Text(
-                      initiative.firstName + initiative.lastName,
+                      '${initiative.firstName} ${initiative.lastName}',
                       style: TextStyle(
                           color: blue1,
                           fontSize: 12,

@@ -70,7 +70,7 @@ class InitiativeRepository {
   Future<PostMessage> getPostById(String postId) {
     final id = int.tryParse(postId);
     if (id != null && [1, 2, 3].contains(id)) {
-      return Future.value(_posts[id]);
+      return Future.value(_posts[id - 1]);
     }
     throw NotFoundException('Запись не найдена');
   }

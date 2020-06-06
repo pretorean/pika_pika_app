@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:pika_pika_app/ui/res/colors.dart';
 
@@ -14,6 +15,8 @@ TextStyle _text = TextStyle(
 //Regular
     textRegular = _text.copyWith(fontWeight: FontWeight.normal),
     textRegular16 = textRegular.copyWith(fontSize: 16.0),
+    textRegular14 = textRegular.copyWith(fontSize: 16.0),
+    textRegular14Black = textRegular14.copyWith(color: Colors.black),
     textRegular16Secondary = textRegular16.copyWith(color: textColorSecondary),
     textRegular16Grey = textRegular16.copyWith(color: textColorGrey),
 

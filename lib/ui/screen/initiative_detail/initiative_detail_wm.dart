@@ -7,7 +7,8 @@ import 'package:surf_mwwm/surf_mwwm.dart';
 
 InitiativeDetailScreenWidgetModel createInitiativeDetailScreenWidgetModel(
     BuildContext context) {
-  var component = Injector.of<InitiativeDetailScreenComponent>(context).component;
+  var component =
+      Injector.of<InitiativeDetailScreenComponent>(context).component;
 
   return InitiativeDetailScreenWidgetModel(
     component.wmDependencies,
