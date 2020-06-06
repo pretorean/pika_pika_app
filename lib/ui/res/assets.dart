@@ -21,3 +21,4 @@ const String imgImage16 = '$_baseResPath/image16.png';
 const String imgImage17 = '$_baseResPath/image17.png';
 const String imgImage18 = '$_baseResPath/image18.png';
 const String imgSwipe = '$_baseResPath/imgSwipe.png';
+const String imgAvatar = '$_baseResPath/img_avatar.png';

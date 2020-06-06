@@ -164,12 +164,23 @@ class InitiativeItem extends StatelessWidget {
                       ],
                     ),
                     SizedBox(height: 10),
-                    Text(
-                      initiative.firstName + ' ' + initiative.lastName,
-                      style: TextStyle(
-                          color: blue1,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w500),
+                    Row(
+                      children: <Widget>[
+                        CircleAvatar(
+                          radius: 10,
+                          child: Image.asset(imgAvatar),
+                        ),
+                        SizedBox(
+                          width: 4,
+                        ),
+                        Text(
+                          initiative.firstName + ' ' + initiative.lastName,
+                          style: TextStyle(
+                              color: blue1,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500),
+                        ),
+                      ],
                     ),
                     SizedBox(height: 6),
                     Text(
@@ -297,6 +308,7 @@ class Header extends StatelessWidget {
                 children: <Widget>[
                   CircleAvatar(
                     radius: 20,
+                    child: Image.asset(imgAvatar),
                   ),
                   SizedBox(width: 18),
                   Expanded(
