@@ -9,6 +9,7 @@ final themeData = ThemeData(
     accentColor: btnColor,
     accentColorBrightness: Brightness.light,
     backgroundColor: backgroundColor,
+    fontFamily: 'Montserrat',
     appBarTheme: AppBarTheme(
       color: appBarColor,
       brightness: Brightness.light,

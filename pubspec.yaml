@@ -71,3 +71,16 @@ flutter:
   #  - images/a_dot_ham.jpeg
   assets:
     - res/assets/
+
+  fonts:
+    - family: Montserrat
+      fonts:
+        - asset: res/fonts/Montserrat-Regular.ttf
+          weight: 400
+        - asset: res/fonts/Montserrat-Medium.ttf
+          weight: 500
+        - asset: res/fonts/Montserrat-SemiBold.ttf
+          weight: 600
+        - asset: res/fonts/Montserrat-Bold.ttf
+          weight: 700
+
