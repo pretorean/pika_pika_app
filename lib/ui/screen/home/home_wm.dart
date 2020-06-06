@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart' hide Action;
 import 'package:injector/injector.dart';
+import 'package:pika_pika_app/ui/screen/home/home_tab.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
 import 'di/home_screen_component.dart';
@@ -13,6 +14,9 @@ HomeScreenWidgetModel createHomeScreenWidgetModel(BuildContext context) {
 class HomeScreenWidgetModel extends WidgetModel {
   final NavigatorState _navigator;
 
+  final homeTabState = StreamedState<HomeTab>(HomeTab.initiatives);
+
+  final bottomNavigationAction = Action<HomeTab>();
 
   HomeScreenWidgetModel(
     WidgetModelDependencies dependencies,
@@ -28,8 +32,13 @@ class HomeScreenWidgetModel extends WidgetModel {
   void onBind() {
     super.onBind();
 
+    bind(bottomNavigationAction, (tab) => _handleBottomNavigation(tab));
+
   }
-  void _openScreen(String routeName) {
-    _navigator.pushReplacementNamed(routeName);
+
+  void _handleBottomNavigation(HomeTab tab) {
+    homeTabState.accept(tab);
   }
+
+
 }

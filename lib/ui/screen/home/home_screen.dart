@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:injector/injector.dart';
+import 'package:pika_pika_app/ui/screen/home/home_tab.dart';
 import 'package:pika_pika_app/ui/screen/initiatives/initiatives_screen.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
@@ -18,9 +19,6 @@ class HomeScreen extends MwwmWidget<HomeScreenComponent> {
 }
 
 class _HomeScreenState extends WidgetState<HomeScreenWidgetModel> {
-
-  int _currentTab = 0;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,20 +29,23 @@ class _HomeScreenState extends WidgetState<HomeScreenWidgetModel> {
   }
 
   Widget _buildBody() {
-    return Stack(
-      children: <Widget>[
-        _getBodyPage(),
-        BottomNavigation(_currentTab, (index) {
-          setState(() {
-            _currentTab = index;
-          });
-        })
-      ],
+    return StreamedStateBuilder<HomeTab>(
+      streamedState: wm.homeTabState,
+      builder: (context, homeTab) {
+        return Stack(
+          children: <Widget>[
+            _getBodyPage(homeTab),
+            BottomNavigation(homeTab, (tab) {
+              wm.bottomNavigationAction.accept(tab);
+            })
+          ],
+        );
+      },
     );
   }
 
-  Widget _getBodyPage() {
-    if (_currentTab == 0) {
+  Widget _getBodyPage(HomeTab homeTab) {
+    if (homeTab == HomeTab.initiatives) {
       return InitiativesScreen();
     } else {
       return Container();
@@ -53,9 +54,9 @@ class _HomeScreenState extends WidgetState<HomeScreenWidgetModel> {
 }
 
 class BottomNavigation extends StatelessWidget {
-  final int tabNumber = 4;
-  final int currentTab;
-  final Function(int index) onTap;
+
+  final HomeTab currentTab;
+  final Function(HomeTab tab) onTap;
 
   BottomNavigation(this.currentTab, this.onTap);
 
@@ -77,15 +78,15 @@ class BottomNavigation extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
-            for (var i = 0; i < tabNumber; i++) createButton(i)
+            for (var tab in HomeTab.values) createButton(tab)
           ],
         ),
       ),
     );
   }
 
-  ButtonNavigationButton createButton(int index) {
-    return ButtonNavigationButton(currentTab == index, () => onTap(index));
+  ButtonNavigationButton createButton(HomeTab tab) {
+    return ButtonNavigationButton(currentTab == tab, () => onTap(tab));
   }
 }
 

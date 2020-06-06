@@ -1,0 +1,1 @@
+enum HomeTab { initiatives, tab1, tab2 }
