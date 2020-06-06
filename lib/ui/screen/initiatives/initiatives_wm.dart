@@ -29,7 +29,6 @@ class InitiativesScreenWidgetModel extends WidgetModel {
       StreamedState<InitiativesFilter>(InitiativesFilter.active);
 
   final openDetailAction = Action<String>();
-
   final initiativesState = EntityStreamedState<List<PostMessage>>();
 
   InitiativesScreenWidgetModel(

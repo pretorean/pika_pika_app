@@ -68,7 +68,7 @@ class _InitiativesScreenState
 
   List<Widget> _getItems(List<PostMessage> posts) {
     final items = <Widget>[];
-    final initiativeItems = posts.map((post) => InitiativeItem(post)).toList();
+    final initiativeItems = posts.map((post) => InitiativeItem(post, wm)).toList();
     items.addAll(initiativeItems);
     items.add(Container(height: 115,));
     return items;
@@ -101,121 +101,127 @@ class HeaderSliverDelegate extends SliverPersistentHeaderDelegate {
 
 class InitiativeItem extends StatelessWidget {
   final PostMessage initiative;
+  final InitiativesScreenWidgetModel wm;
 
-  InitiativeItem(this.initiative);
+  InitiativeItem(this.initiative, this.wm);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
-      child: Container(
-        height: 200,
-        decoration: BoxDecoration(
-          color: white,
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Stack(
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.only(top: 20, bottom: 32),
-              child: Container(
-                width: 3,
-                color: blue1,
+      child: GestureDetector(
+        onTap: () {
+          wm.openDetailAction.accept(initiative.id);
+        },
+        child: Container(
+          height: 200,
+          decoration: BoxDecoration(
+            color: white,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Stack(
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(top: 20, bottom: 32),
+                child: Container(
+                  width: 3,
+                  color: blue1,
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(
-                  left: 23, right: 23, top: 20, bottom: 32),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Row(
-                    children: <Widget>[
-                      Container(
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(50),
-                            color: Color(0xFF63FF8F)),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 10, horizontal: 20),
-                          child: Text(
-                            initiative.type,
-                            style: TextStyle(
-                                color: text1,
-                                fontSize: 12,
-                                fontWeight: FontWeight.w600),
+              Padding(
+                padding: const EdgeInsets.only(
+                    left: 23, right: 23, top: 20, bottom: 32),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Row(
+                      children: <Widget>[
+                        Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(50),
+                              color: Color(0xFF63FF8F)),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 10, horizontal: 20),
+                            child: Text(
+                              initiative.type,
+                              style: TextStyle(
+                                  color: text1,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w600),
+                            ),
                           ),
                         ),
-                      ),
-                      Spacer(),
-                      SvgPicture.asset(
-                        icShare,
-                        height: 36,
-                        width: 36,
-                      )
-                    ],
-                  ),
-                  SizedBox(height: 10),
-                  Text(
-                    initiative.firstName + initiative.lastName,
-                    style: TextStyle(
-                        color: blue1,
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500),
-                  ),
-                  SizedBox(height: 6),
-                  Text(
-                    initiative.title,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 14,
-                      color: text1,
+                        Spacer(),
+                        SvgPicture.asset(
+                          icShare,
+                          height: 36,
+                          width: 36,
+                        )
+                      ],
                     ),
-                  ),
-                  SizedBox(height: 16),
-                  Row(
-                    children: <Widget>[
-                      SvgPicture.asset(icLikes),
-                      SizedBox(
-                        width: 6,
+                    SizedBox(height: 10),
+                    Text(
+                      initiative.firstName + initiative.lastName,
+                      style: TextStyle(
+                          color: blue1,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500),
+                    ),
+                    SizedBox(height: 6),
+                    Text(
+                      initiative.title,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14,
+                        color: text1,
                       ),
-                      Text(
-                        initiative.likes.toString(),
-                        style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w500,
-                            color: text2),
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      SvgPicture.asset(icViews),
-                      SizedBox(
-                        width: 6,
-                      ),
-                      Text(
-                        initiative.views.toString(),
-                        style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w500,
-                            color: text2),
-                      ),
-                      SizedBox(
-                        width: 30,
-                      ),
-                      Text(
-                        initiative.createDate,
-                        style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w400,
-                            color: text2),
-                      ),
-                    ],
-                  )
-                ],
-              ),
-            )
-          ],
+                    ),
+                    SizedBox(height: 16),
+                    Row(
+                      children: <Widget>[
+                        SvgPicture.asset(icLikes),
+                        SizedBox(
+                          width: 6,
+                        ),
+                        Text(
+                          initiative.likes.toString(),
+                          style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500,
+                              color: text2),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        SvgPicture.asset(icViews),
+                        SizedBox(
+                          width: 6,
+                        ),
+                        Text(
+                          initiative.views.toString(),
+                          style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500,
+                              color: text2),
+                        ),
+                        SizedBox(
+                          width: 30,
+                        ),
+                        Text(
+                          initiative.createDate,
+                          style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w400,
+                              color: text2),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
