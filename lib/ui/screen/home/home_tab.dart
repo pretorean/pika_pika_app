@@ -1,1 +1,1 @@
-enum HomeTab { initiatives, tab1, tab2 }
+enum HomeTab { initiatives, leaders, add, profile, map }
