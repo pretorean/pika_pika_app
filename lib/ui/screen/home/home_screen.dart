@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:injector/injector.dart';
+import 'package:pika_pika_app/ui/res/colors.dart';
 import 'package:pika_pika_app/ui/screen/home/home_tab.dart';
 import 'package:pika_pika_app/ui/screen/initiatives/initiatives_screen.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
@@ -22,7 +23,6 @@ class _HomeScreenState extends WidgetState<HomeScreenWidgetModel> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFDBE8FF),
       key: Injector.of<HomeScreenComponent>(context).component.scaffoldKey,
       body: _buildBody(),
     );
@@ -69,7 +69,7 @@ class BottomNavigation extends StatelessWidget {
       child: Container(
         height: 102,
         decoration: BoxDecoration(
-          color: Color(0xFFF8FBFB),
+          color: white,
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(20),
             topRight: Radius.circular(20),
