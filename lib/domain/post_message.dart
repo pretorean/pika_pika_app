@@ -5,8 +5,8 @@ class PostMessage {
   final String userId;
   final String firstName;
   final String lastName;
-  final int likes;
-  final int views;
+  final String likes;
+  final String views;
   final String type;
   final String createDate;
   final String modifyDate;
@@ -24,4 +24,17 @@ class PostMessage {
     this.createDate,
     this.modifyDate,
   });
+
+  PostMessage.fromJson(Map<String, dynamic> json)
+      : id = json['id'],
+        body = json['body'],
+        title = json['title'],
+        userId = json['user_id'],
+        firstName = json['firstname'],
+        lastName = json['lastname'],
+        likes = json['likes'],
+        views = json['views'],
+        type = json['type'],
+        createDate = json['createdate'],
+        modifyDate = json['modifydate'];
 }
