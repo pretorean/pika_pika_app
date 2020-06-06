@@ -34,9 +34,15 @@ abstract class Url {
 
 ///URL запросов авторизации
 abstract class AuthUrl {
-  static String get authUrl => '/api';
+  static String get baseUrl => '/api';
 
-  static String get registerUrl => '$authUrl/register.php';
+  static String get registerUrl => '$baseUrl/register.php';
 
-  static String get loginUrl => '$authUrl/login.php';
+  static String get loginUrl => '$baseUrl/login.php';
+}
+
+abstract class InitiativeUrl {
+  static String get baseUrl => '/api';
+
+  static String get loginUrl => '$baseUrl/getListMyPosts.php';
 }

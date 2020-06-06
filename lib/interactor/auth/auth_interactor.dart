@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:pika_pika_app/interactor/auth/temp_repository/auth_repository.dart';
+import 'package:pika_pika_app/interactor/auth/auth_repository/auth_repository.dart';
 
 /// Интерактор авторизации
 class AuthInteractor {

@@ -1,8 +1,8 @@
 import 'package:flutter/widgets.dart';
 import 'package:network/network.dart';
-import 'package:pika_pika_app/interactor/auth/temp_repository/data/login_request.dart';
-import 'package:pika_pika_app/interactor/auth/temp_repository/data/register_request.dart';
-import 'package:pika_pika_app/interactor/auth/temp_repository/data/token_response.dart';
+import 'package:pika_pika_app/interactor/auth/auth_repository/data/login_request.dart';
+import 'package:pika_pika_app/interactor/auth/auth_repository/data/register_request.dart';
+import 'package:pika_pika_app/interactor/auth/auth_repository/data/token_response.dart';
 import 'package:pika_pika_app/interactor/common/urls.dart';
 
 /// Репозиторий

@@ -5,9 +5,9 @@ import 'package:network/network.dart';
 import 'package:pika_pika_app/config/config.dart';
 import 'package:pika_pika_app/config/env/env.dart';
 import 'package:pika_pika_app/interactor/auth/auth_interactor.dart';
-import 'package:pika_pika_app/interactor/auth/temp_repository/auth_repository.dart';
-import 'package:pika_pika_app/interactor/counter/counter_interactor.dart';
-import 'package:pika_pika_app/interactor/counter/repository/counter_repository.dart';
+import 'package:pika_pika_app/interactor/auth/auth_repository/auth_repository.dart';
+import 'package:pika_pika_app/interactor/initiative/initiative_interactor.dart';
+import 'package:pika_pika_app/interactor/initiative/initiative_repository/initiative_repository.dart';
 import 'package:pika_pika_app/interactor/network/header_builder.dart';
 import 'package:pika_pika_app/interactor/network/status_mapper.dart';
 import 'package:pika_pika_app/interactor/session/session_changed_interactor.dart';
@@ -29,8 +29,8 @@ class AppComponent implements Component {
   AuthTokenStorage authTokenStorage;
   DioHttp http;
   SessionChangedInteractor scInteractor;
-  CounterInteractor counterInteractor;
   AuthInteractor authInteractor;
+  InitiativeInteractor initiativeInteractor;
 
   AppComponent(BuildContext context) {
     rebuildDependencies();
@@ -47,12 +47,12 @@ class AppComponent implements Component {
     http = _initHttp(authTokenStorage);
     scInteractor = SessionChangedInteractor(authTokenStorage);
 
-    counterInteractor = CounterInteractor(
-      CounterRepository(preferencesHelper),
-    );
-
     authInteractor = AuthInteractor(
       AuthRepository(http),
+    );
+
+    initiativeInteractor = InitiativeInteractor(
+      InitiativeRepository(http),
     );
 
     wmDependencies = WidgetModelDependencies(
@@ -74,7 +74,6 @@ class AppComponent implements Component {
       ),
       errorMapper: DefaultStatusMapper(),
       headersBuilder: DefaultHeaderBuilder(authStorage),
-
     );
     return dioHttp;
   }
