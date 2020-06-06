@@ -3,7 +3,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pika_pika_app/ui/app/app.dart';
 import 'package:pika_pika_app/ui/res/assets.dart';
 import 'package:pika_pika_app/ui/res/colors.dart';
-import 'package:pika_pika_app/ui/screen/home/home_tab.dart';
+
+enum HomeTab { initiatives, leaders, add, profile, map }
 
 class BottomNavigation extends StatelessWidget {
   final HomeTab currentTab;

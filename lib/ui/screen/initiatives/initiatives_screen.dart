@@ -8,7 +8,6 @@ import 'package:pika_pika_app/ui/common/widgets/bottom_navigation.dart';
 import 'package:pika_pika_app/ui/res/assets.dart';
 import 'package:pika_pika_app/ui/res/colors.dart';
 import 'package:pika_pika_app/ui/res/strings/strings.dart';
-import 'package:pika_pika_app/ui/screen/home/home_tab.dart';
 import 'package:pika_pika_app/ui/screen/initiatives/initiatives_filter.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 

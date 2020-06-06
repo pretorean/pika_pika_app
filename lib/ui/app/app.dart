@@ -6,7 +6,6 @@ import 'package:pika_pika_app/domain/debug_options.dart';
 import 'package:pika_pika_app/ui/app/app_wm.dart';
 import 'package:pika_pika_app/ui/app/di/app.dart';
 import 'package:pika_pika_app/ui/res/styles.dart';
-import 'package:pika_pika_app/ui/screen/home/home_route.dart';
 import 'package:pika_pika_app/ui/screen/initiatives/initiatives_route.dart';
 import 'package:pika_pika_app/ui/screen/login/login_route.dart';
 import 'package:pika_pika_app/ui/screen/register/register_route.dart';
@@ -21,7 +20,6 @@ class Router {
   static const String splashScreen = '/splash';
   static const String registerScreen = '/register';
   static const String loginScreen = '/login';
-  static const String homeScreen = '/home';
   static const String initiativesScreen = '/initiatives';
 
   static final Map<String, Route Function(dynamic data)> routes = {
@@ -29,7 +27,6 @@ class Router {
     Router.splashScreen: (data) => SplashScreenRoute(),
     Router.loginScreen: (data) => LoginScreenRoute(),
     Router.registerScreen: (data) => RegisterScreenRoute(),
-    Router.homeScreen: (data) => HomeScreenRoute(),
     Router.initiativesScreen: (data) => InitiativesScreenRoute(),
   };
 }

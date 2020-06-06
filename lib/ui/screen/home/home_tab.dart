@@ -1,1 +1,0 @@
-enum HomeTab { initiatives, leaders, add, profile, map }
