@@ -44,5 +44,5 @@ abstract class AuthUrl {
 abstract class InitiativeUrl {
   static String get baseUrl => '/api';
 
-  static String get loginUrl => '$baseUrl/getListMyPosts.php';
+  static String get postsListUrl => '$baseUrl/getListPosts.php';
 }

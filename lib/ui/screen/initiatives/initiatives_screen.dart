@@ -52,6 +52,9 @@ class _InitiativesScreenState
                     child: CircularProgressIndicator(),
                   ),
                 ),
+                errorChild: SliverToBoxAdapter(
+                  child: Container(),
+                ),
                 child: (context, posts) {
                   return SliverList(
                     delegate: SliverChildListDelegate(
@@ -171,10 +174,12 @@ class InitiativeItem extends StatelessWidget {
                     SizedBox(height: 6),
                     Text(
                       initiative.title,
+                      maxLines: 2,
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 14,
                         color: text1,
+
                       ),
                     ),
                     SizedBox(height: 16),

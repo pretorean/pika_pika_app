@@ -1,6 +1,8 @@
 import 'package:network/network.dart';
 import 'package:pika_pika_app/domain/post_message.dart';
 import 'package:pika_pika_app/interactor/common/exceptions.dart';
+import 'package:pika_pika_app/interactor/common/urls.dart';
+import 'package:pika_pika_app/interactor/initiative/initiative_repository/data/posts_lists_response.dart';
 
 /// Репозиторий
 
@@ -28,8 +30,8 @@ class InitiativeRepository {
       lastName: 'Иваненко',
       userId: '1',
       type: 'Социальные проблемы',
-      likes: 687,
-      views: 394,
+      likes: '687',
+      views: '394',
       createDate: '01.05.2020',
       modifyDate: DateTime.now().toString(),
     ),
@@ -41,8 +43,8 @@ class InitiativeRepository {
       lastName: 'Пушной',
       userId: '2',
       type: 'ЖКХ',
-      likes: 187,
-      views: 1394,
+      likes: '187',
+      views: '1394',
       createDate: '03.05.2020',
       modifyDate: DateTime.now().toString(),
     ),
@@ -54,8 +56,8 @@ class InitiativeRepository {
       lastName: 'Невский',
       userId: '3',
       type: 'ЖКХ',
-      likes: 187,
-      views: 1394,
+      likes: '187',
+      views: '1394',
       createDate: '05.05.2020',
       modifyDate: DateTime.now().toString(),
     ),
@@ -64,7 +66,8 @@ class InitiativeRepository {
   InitiativeRepository(this._http);
 
   Future<List<PostMessage>> getPosts() async {
-    return Future.value(_posts);
+    var response = await _http.post(InitiativeUrl.postsListUrl);
+    return PostsListResponse.fromJson(response.body).transform();
   }
 
   Future<PostMessage> getPostById(String postId) {
