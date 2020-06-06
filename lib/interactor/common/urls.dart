@@ -45,4 +45,6 @@ abstract class InitiativeUrl {
   static String get baseUrl => '/api';
 
   static String get postsListUrl => '$baseUrl/getListPosts.php';
+
+  static String get likePostUrl => '$baseUrl/addLike.php';
 }

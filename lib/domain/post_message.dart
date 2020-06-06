@@ -6,6 +6,7 @@ class PostMessage {
   final String firstName;
   final String lastName;
   final String likes;
+  final bool isLiked;
   final String views;
   final String type;
   final String createDate;
@@ -19,6 +20,7 @@ class PostMessage {
     this.firstName,
     this.lastName,
     this.likes,
+    this.isLiked,
     this.views,
     this.type,
     this.createDate,
@@ -33,6 +35,7 @@ class PostMessage {
         firstName = json['firstname'],
         lastName = json['lastname'],
         likes = json['likes'],
+        isLiked = false,
         views = json['views'],
         type = json['type'],
         createDate = json['createdate'],
