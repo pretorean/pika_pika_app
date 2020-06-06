@@ -5,11 +5,11 @@ import 'package:pika_pika_app/interactor/initiative/initiative_interactor.dart';
 import 'package:pika_pika_app/ui/screen/initiative_detail/di/initiative_detail_screen_component.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
-InitiativeDetailWidgetModel createInitiativeDetailWidgetModel(
+InitiativeDetailScreenWidgetModel createInitiativeDetailScreenWidgetModel(
     BuildContext context) {
-  var component = Injector.of<InitiativeDetailComponent>(context).component;
+  var component = Injector.of<InitiativeDetailScreenComponent>(context).component;
 
-  return InitiativeDetailWidgetModel(
+  return InitiativeDetailScreenWidgetModel(
     component.wmDependencies,
     component.navigator,
     component.initiativeInteractor,
@@ -17,7 +17,7 @@ InitiativeDetailWidgetModel createInitiativeDetailWidgetModel(
   );
 }
 
-class InitiativeDetailWidgetModel extends WidgetModel {
+class InitiativeDetailScreenWidgetModel extends WidgetModel {
   final NavigatorState _navigator;
 
   final InitiativeInteractor _initiativeInteractor;
@@ -26,7 +26,7 @@ class InitiativeDetailWidgetModel extends WidgetModel {
 
   final dataState = EntityStreamedState<PostMessage>();
 
-  InitiativeDetailWidgetModel(
+  InitiativeDetailScreenWidgetModel(
     WidgetModelDependencies dependencies,
     this._navigator,
     this._initiativeInteractor,
