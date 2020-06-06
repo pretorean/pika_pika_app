@@ -190,7 +190,7 @@ class _InitiativeDetailScreenState
               padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
               child: Row(
                 children: [
-                  SvgPicture.asset(icLikes),
+                  SvgPicture.asset(icLike),
                   SizedBox(width: 8),
                   Text(
                     'Поддержать',
