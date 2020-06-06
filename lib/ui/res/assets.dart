@@ -16,6 +16,7 @@ const String icLeadersTab = '$_baseResPath/ic_leaders_tab.svg';
 const String icMapTab = '$_baseResPath/ic_map_tab.svg';
 const String icProfileTab = '$_baseResPath/ic_profile_tab.svg';
 const String icAddTab = '$_baseResPath/ic_add_tab.svg';
+const String icBigQuestion = '$_baseResPath/ic_big_question.svg';
 
 const String imgImage16 = '$_baseResPath/image16.png';
 const String imgImage17 = '$_baseResPath/image17.png';
