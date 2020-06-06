@@ -14,4 +14,8 @@ class InitiativeInteractor {
   Future<PostMessage> getPostById(String postId) {
     return repository.getPostById(postId);
   }
+
+  Future<PostMessage> likePost(String postId) {
+    return repository.likePost(postId);
+  }
 }

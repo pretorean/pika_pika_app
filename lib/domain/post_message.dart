@@ -35,7 +35,7 @@ class PostMessage {
         firstName = json['firstname'],
         lastName = json['lastname'],
         likes = json['likes'],
-        isLiked = false,
+        isLiked = (json['isliked'] == '1'),
         views = json['views'],
         type = json['type'],
         createDate = json['createdate'],

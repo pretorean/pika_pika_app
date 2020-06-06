@@ -78,8 +78,13 @@ class InitiativeRepository {
     return PostMessage.fromJson(response.body['message']);
   }
 
-  Future<List<PostMessage>> likePosts(String postId) async {
+  Future<PostMessage> likePost(String postId) async {
     final body = LikePostRequest(postId: postId).json;
     final response = await _http.post(InitiativeUrl.likePostUrl, body: body);
+    if (response.statusCode == 204) {
+      return getPostById(postId);
+    } else {
+      throw Exception('Failure to like');
+    }
   }
 }

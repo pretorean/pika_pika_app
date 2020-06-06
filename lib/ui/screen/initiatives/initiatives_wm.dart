@@ -25,11 +25,12 @@ class InitiativesScreenWidgetModel extends WidgetModel {
   final InitiativeInteractor initiativeInteractor;
 
   final filterAction = Action<InitiativesFilter>();
-  final filterState =
-      StreamedState<InitiativesFilter>(InitiativesFilter.active);
+  final filterState = StreamedState<InitiativesFilter>(InitiativesFilter.active);
 
   final openDetailAction = Action<String>();
   final initiativesState = EntityStreamedState<List<PostMessage>>();
+  
+  final likePostAction = Action<String>();
 
   InitiativesScreenWidgetModel(
     WidgetModelDependencies dependencies,
@@ -53,6 +54,8 @@ class InitiativesScreenWidgetModel extends WidgetModel {
     });
 
     bind(openDetailAction, (String postId) => _openDetailScreen(postId));
+    
+    bind(likePostAction, (String postId) => _likePost(postId));
   }
 
   void _loadInitiatives() {
@@ -70,5 +73,16 @@ class InitiativesScreenWidgetModel extends WidgetModel {
       Router.initiativesDetailScreen,
       arguments: postId,
     );
+  }
+  
+  void _likePost(String postId) {
+    doFutureHandleError(initiativeInteractor.likePost(postId), (post) {
+      final posts = initiativesState.value.data;
+      final index = posts.indexWhere((post) => post.id == postId);
+      if (index != -1) {
+        posts[index] = post;
+        initiativesState.content(posts);
+      }
+    });
   }
 }

@@ -94,7 +94,6 @@ class HeaderSliverDelegate extends SliverPersistentHeaderDelegate {
   double get maxExtent => 135;
 
   @override
-  // TODO: implement minExtent
   double get minExtent => 135;
 
   @override
@@ -249,14 +248,21 @@ class InitiativeItem extends StatelessWidget {
       );
     }
 
-    return Row(
-      children: <Widget>[
-        picture,
-        SizedBox(
-          width: 6,
-        ),
-        text
-      ],
+    return GestureDetector(
+      onTap: () {
+        if (!initiative.isLiked) {
+          wm.likePostAction(initiative.id);
+        }
+      },
+      child: Row(
+        children: <Widget>[
+          picture,
+          SizedBox(
+            width: 6,
+          ),
+          text
+        ],
+      ),
     );
   }
 }
