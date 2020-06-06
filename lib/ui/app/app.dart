@@ -6,6 +6,7 @@ import 'package:pika_pika_app/domain/debug_options.dart';
 import 'package:pika_pika_app/ui/app/app_wm.dart';
 import 'package:pika_pika_app/ui/app/di/app.dart';
 import 'package:pika_pika_app/ui/res/styles.dart';
+import 'package:pika_pika_app/ui/screen/home/home_route.dart';
 import 'package:pika_pika_app/ui/screen/login/login_route.dart';
 import 'package:pika_pika_app/ui/screen/register/register_route.dart';
 import 'package:pika_pika_app/ui/screen/splash_screen/splash_route.dart';
@@ -19,12 +20,14 @@ class Router {
   static const String splashScreen = '/splash';
   static const String registerScreen = '/register';
   static const String loginScreen = '/login';
+  static const String homeScreen = '/home';
 
   static final Map<String, Route Function(dynamic data)> routes = {
     Router.root: (data) => WelcomeScreenRoute(),
     Router.splashScreen: (data) => SplashScreenRoute(),
     Router.loginScreen: (data) => LoginScreenRoute(),
     Router.registerScreen: (data) => RegisterScreenRoute(),
+    Router.homeScreen: (data) => HomeScreenRoute()
   };
 }
 
@@ -76,7 +79,7 @@ class _AppState extends WidgetState<AppWidgetModel> {
       checkerboardOffscreenLayers: getDebugConfig().checkerboardOffscreenLayers,
       showSemanticsDebugger: getDebugConfig().showSemanticsDebugger,
       debugShowCheckedModeBanner: getDebugConfig().debugShowCheckedModeBanner,
-      initialRoute: Router.splashScreen,
+      initialRoute: Router.homeScreen,
       onGenerateRoute: (RouteSettings rs) =>
           Router.routes[rs.name](rs.arguments),
     );
