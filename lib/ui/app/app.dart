@@ -83,7 +83,7 @@ class _AppState extends WidgetState<AppWidgetModel> {
       checkerboardOffscreenLayers: getDebugConfig().checkerboardOffscreenLayers,
       showSemanticsDebugger: getDebugConfig().showSemanticsDebugger,
       debugShowCheckedModeBanner: getDebugConfig().debugShowCheckedModeBanner,
-      initialRoute: Router.initiativesScreen,
+      initialRoute: Router.splashScreen,
       onGenerateRoute: (RouteSettings rs) =>
           Router.routes[rs.name](rs.arguments),
     );

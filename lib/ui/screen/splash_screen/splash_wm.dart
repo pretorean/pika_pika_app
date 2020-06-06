@@ -44,7 +44,7 @@ class SplashScreenWidgetModel extends WidgetModel {
       initApp(),
       (bool isAuth) {
         if (isAuth) {
-          _openScreen(Router.root);
+          _openScreen(Router.initiativesScreen);
         } else {
           _openScreen(Router.loginScreen);
         }
