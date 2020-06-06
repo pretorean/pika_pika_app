@@ -15,6 +15,6 @@ const String loginEnterLastName = 'Введите свою фамилию';
 
 
 //экран инициатив
-const String initiativesScreenTitle = 'Инициативы пльзователей';
+const String initiativesScreenTitle = 'Инициативы пользователей';
 const String initiativesFilterButtonActive = 'Активные';
 const String initiativesFilterButtonSolved = 'Решенные';
