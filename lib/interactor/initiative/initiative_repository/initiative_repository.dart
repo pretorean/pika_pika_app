@@ -1,5 +1,6 @@
 import 'package:network/network.dart';
 import 'package:pika_pika_app/domain/post_message.dart';
+import 'package:pika_pika_app/interactor/common/exceptions.dart';
 
 /// Репозиторий
 
@@ -55,7 +56,7 @@ class InitiativeRepository {
       type: 'ЖКХ',
       likes: 187,
       views: 1394,
-      createDate:'05.05.2020',
+      createDate: '05.05.2020',
       modifyDate: DateTime.now().toString(),
     ),
   ];
@@ -64,5 +65,13 @@ class InitiativeRepository {
 
   Future<List<PostMessage>> getPosts() async {
     return Future.value(_posts);
+  }
+
+  Future<PostMessage> getPostById(String postId) {
+    final id = int.tryParse(postId);
+    if (id != null && [1, 2, 3].contains(id)) {
+      return Future.value(_posts[id]);
+    }
+    throw NotFoundException('Запись не найдена');
   }
 }

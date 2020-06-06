@@ -6,10 +6,16 @@ import 'package:pika_pika_app/ui/screen/initiative_detail/initiative_detail_wm.d
 import 'package:surf_mwwm/surf_mwwm.dart';
 
 class InitiativeDetail extends MwwmWidget<InitiativeDetailComponent> {
-  InitiativeDetail([
+  InitiativeDetail({
+    Key key,
     WidgetModelBuilder widgetModelBuilder = createInitiativeDetailWidgetModel,
-  ]) : super(
-          dependenciesBuilder: (context) => InitiativeDetailComponent(context),
+    String postId,
+  }) : super(
+          key: key,
+          dependenciesBuilder: (context) => InitiativeDetailComponent(
+            context,
+            postId,
+          ),
           widgetStateBuilder: () => _InitiativeDetailState(),
           widgetModelBuilder: widgetModelBuilder,
         );

@@ -10,4 +10,8 @@ class InitiativeInteractor {
   Future<List<PostMessage>> getPosts() {
     return repository.getPosts();
   }
+
+  Future<PostMessage> getPostById(String postId) {
+    return repository.getPostById(postId);
+  }
 }
