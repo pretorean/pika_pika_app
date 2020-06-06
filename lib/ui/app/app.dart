@@ -8,6 +8,7 @@ import 'package:pika_pika_app/ui/app/di/app.dart';
 import 'package:pika_pika_app/ui/res/styles.dart';
 import 'package:pika_pika_app/ui/screen/initiative_detail/initiative_detail_route.dart';
 import 'package:pika_pika_app/ui/screen/initiatives/initiatives_route.dart';
+import 'package:pika_pika_app/ui/screen/leaders/leaders_route.dart';
 import 'package:pika_pika_app/ui/screen/login/login_route.dart';
 import 'package:pika_pika_app/ui/screen/register/register_route.dart';
 import 'package:pika_pika_app/ui/screen/splash_screen/splash_route.dart';
@@ -23,6 +24,7 @@ class Router {
   static const String loginScreen = '/login';
   static const String initiativesScreen = '/initiatives';
   static const String initiativesDetailScreen = '/initiativeDetail';
+  static const String leadersScreen = '/leadersScreen';
 
   static final Map<String, Route Function(dynamic data)> routes = {
     Router.root: (data) => WelcomeScreenRoute(),
@@ -30,8 +32,8 @@ class Router {
     Router.loginScreen: (data) => LoginScreenRoute(),
     Router.registerScreen: (data) => RegisterScreenRoute(),
     Router.initiativesScreen: (data) => InitiativesScreenRoute(),
-    Router.initiativesDetailScreen: (data) =>
-        InitiativeDetailScreenRoute(postId: data),
+    Router.initiativesDetailScreen: (data) => InitiativeDetailScreenRoute(postId: data),
+    Router.leadersScreen: (data) => LeadersScreenRoute()
   };
 }
 
