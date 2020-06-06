@@ -46,6 +46,21 @@ class _InitiativeDetailScreenState
           ),
           onPressed: () => Navigator.of(context).pop(),
         ),
+        title: EntityStateBuilder<PostMessage>(
+          streamedState: wm.dataState,
+          loadingChild: Text('Инициатива'),
+          errorChild: Text('Инициатива'),
+          child: (context, post) {
+            return Text(
+              post.title,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 14,
+                color: text1,
+              ),
+            );
+          },
+        ),
         elevation: 0,
       ),
       body: SafeArea(
@@ -73,7 +88,10 @@ class _InitiativeDetailScreenState
                   SizedBox(height: 10),
                   _buildMap(),
                   SizedBox(height: 10),
-                  //  _buildRecipes(),
+                  _buildRecipes(),
+                  SizedBox(height: 10),
+                  _buildOrangeBlock(),
+                  SizedBox(height: 30),
                 ],
               ),
             );
@@ -190,7 +208,10 @@ class _InitiativeDetailScreenState
               padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
               child: Row(
                 children: [
-                  SvgPicture.asset(icLike),
+                  SvgPicture.asset(
+                    icLike,
+                    color: blue2,
+                  ),
                   SizedBox(width: 8),
                   Text(
                     'Поддержать',
@@ -213,7 +234,7 @@ class _InitiativeDetailScreenState
     return Container(
       decoration: BoxDecoration(
         color: white,
-        borderRadius: BorderRadius.circular(50),
+        borderRadius: BorderRadius.circular(20),
       ),
       child: Padding(
         padding: const EdgeInsets.all(30.0),
@@ -259,52 +280,205 @@ class _InitiativeDetailScreenState
   }
 
   Widget _buildRecipes() {
-    return Container(
-      decoration: BoxDecoration(
-        color: white,
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Container(
+        decoration: BoxDecoration(
+          color: white,
+          borderRadius: BorderRadius.circular(10),
+        ),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    color: blue2,
-                    borderRadius: BorderRadius.circular(50),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          color: blue2,
+                          borderRadius: BorderRadius.circular(50),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Text(
+                            'Алексей Гребницкий',
+                            style: TextStyle(
+                              color: blue1,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Spacer(),
+                      Image.asset(imgSwipe),
+                    ],
                   ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Text(
-                      'Алексей Гребницкий',
-                      style: TextStyle(
+                  SizedBox(height: 10),
+                  Text(
+                    'Решение',
+                    style: TextStyle(
                         color: blue1,
                         fontSize: 12,
-                        fontWeight: FontWeight.w500,
+                        fontWeight: FontWeight.w500),
+                  ),
+                  SizedBox(height: 10),
+                  Text(
+                    'Отремонтировать грунтовую дорогу и вести ее поддержку на протяжении всей стройки.',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14,
+                      color: text1,
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  Row(
+                    children: [
+                      Icon(Icons.person_add, color: text2),
+                      SizedBox(width: 6),
+                      Text(
+                        '687 поддержали\nрешение',
+                        style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                            color: text2),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 20),
+                ],
+              ),
+            ),
+            Container(
+              height: 96,
+              decoration: BoxDecoration(
+                color: ghostWhiteColor,
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(10),
+                  bottomRight: Radius.circular(10),
+                ),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      color: yellow1,
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Row(
+                        children: [
+                          SvgPicture.asset(
+                            icLike,
+                            color: orange,
+                          ),
+                          Text(
+                            'Голосовать',
+                            style: TextStyle(
+                                color: orange,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w600),
+                          )
+                        ],
                       ),
                     ),
                   ),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: blue2,
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Row(
+                        children: [
+                          SvgPicture.asset(
+                            icLike,
+                            color: blue1,
+                          ),
+                          Text(
+                            'Подробнее',
+                            style: TextStyle(
+                                color: blue1,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w600),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildOrangeBlock() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Container(
+        height: 180,
+        decoration: BoxDecoration(
+          color: orange,
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Stack(
+          children: [
+            Positioned(
+              left: 20,
+              top: 20,
+              child: Container(
+                height: 30,
+                width: 30,
+                decoration: BoxDecoration(
+                  color: yellow1,
+                  borderRadius: BorderRadius.circular(50),
                 ),
-                Spacer(),
-                Image.asset(imgSwipe),
-              ],
+                child: Center(
+                  child: Icon(
+                    Icons.arrow_forward_ios,
+                    color: blue1,
+                    size: 16,
+                  ),
+                ),
+              ),
             ),
-            SizedBox(height: 10),
-            Text(
-              'Решение',
-              style: TextStyle(
-                  color: blue1, fontSize: 12, fontWeight: FontWeight.w500),
+            Align(
+              alignment: Alignment.centerRight,
+              child: SvgPicture.asset(icBigQuestion),
             ),
-            SizedBox(height: 10),
-            Text(
-              'Отремонтировать грунтовую дорогу и вести ее поддержку на протяжении всей стройки.',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 14,
-                color: text1,
+            Positioned(
+              left: 20,
+              top: 60,
+              child: Text(
+                'Не согласны\nс текущими решениями?',
+                style: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 12,
+                  color: white,
+                ),
+              ),
+            ),
+            Align(
+              alignment: Alignment.bottomLeft,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 20, bottom: 30),
+                child: Text(
+                  'Предложите\nсвое решение\nпроблемы',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 14,
+                    color: white,
+                  ),
+                ),
               ),
             ),
           ],
