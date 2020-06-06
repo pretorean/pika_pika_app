@@ -1,9 +1,10 @@
 import 'package:network/network.dart';
 import 'package:pika_pika_app/domain/post_message.dart';
-import 'package:pika_pika_app/interactor/common/exceptions.dart';
 import 'package:pika_pika_app/interactor/common/urls.dart';
 import 'package:pika_pika_app/interactor/initiative/initiative_repository/data/like_post_request.dart';
 import 'package:pika_pika_app/interactor/initiative/initiative_repository/data/posts_lists_response.dart';
+
+import 'data/post_request.dart';
 
 /// Репозиторий
 
@@ -68,16 +69,13 @@ class InitiativeRepository {
 
   Future<List<PostMessage>> getPosts() async {
     var response = await _http.post(InitiativeUrl.postsListUrl);
-    print(response.body);
     return PostsListResponse.fromJson(response.body).transform();
   }
 
-  Future<PostMessage> getPostById(String postId) {
-    final id = int.tryParse(postId);
-    if (id != null && [1, 2, 3].contains(id)) {
-      return Future.value(_posts[id - 1]);
-    }
-    throw NotFoundException('Запись не найдена');
+  Future<PostMessage> getPostById(String postId) async {
+    final body = PostRequest(postId: postId).json;
+    final response = await _http.post(InitiativeUrl.postUrl, body: body);
+    return PostMessage.fromJson(response.body['message']);
   }
 
   Future<List<PostMessage>> likePosts(String postId) async {
