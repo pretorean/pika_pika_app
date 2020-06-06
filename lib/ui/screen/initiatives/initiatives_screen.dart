@@ -165,7 +165,7 @@ class InitiativeItem extends StatelessWidget {
                     ),
                     SizedBox(height: 10),
                     Text(
-                      initiative.firstName + initiative.lastName,
+                      initiative.firstName + ' ' + initiative.lastName,
                       style: TextStyle(
                           color: blue1,
                           fontSize: 12,
