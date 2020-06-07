@@ -1,11 +1,9 @@
-import 'dart:math';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:injector/injector.dart';
-import 'package:pika_pika_app/domain/leader.dart';
+import 'package:pika_pika_app/domain/voice_way_step.dart';
 import 'package:pika_pika_app/ui/common/widgets/bottom_navigation.dart';
 import 'package:pika_pika_app/ui/res/assets.dart';
 import 'package:pika_pika_app/ui/res/colors.dart';
@@ -13,7 +11,6 @@ import 'package:pika_pika_app/ui/screen/profile/profile_wm.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
 import 'di/profile_screen_component.dart';
-
 
 class ProfileScreen extends MwwmWidget<ProfileScreenComponent> {
   ProfileScreen([
@@ -43,8 +40,8 @@ class _ProfileScreenState extends WidgetState<ProfileScreenWidgetModel> {
             SliverPersistentHeader(
                 pinned: true, delegate: HeaderSliverDelegate(wm)),
             SliverPadding(padding: EdgeInsets.only(top: 5)),
-            EntityStateBuilder<List<Leader>>(
-              streamedState: wm.leadersState,
+            EntityStateBuilder<List<VoiceWayStep>>(
+              streamedState: wm.voiceWayState,
               loadingChild: SliverToBoxAdapter(
                 child: Center(
                   child: CircularProgressIndicator(),
@@ -53,9 +50,9 @@ class _ProfileScreenState extends WidgetState<ProfileScreenWidgetModel> {
               errorChild: SliverToBoxAdapter(
                 child: Container(),
               ),
-              child: (context, leaders) {
+              child: (context, steps) {
                 return SliverList(
-                  delegate: SliverChildListDelegate(_getItems(leaders)),
+                  delegate: SliverChildListDelegate(_getItems(steps)),
                 );
               },
             )
@@ -66,12 +63,12 @@ class _ProfileScreenState extends WidgetState<ProfileScreenWidgetModel> {
     );
   }
 
-  List<Widget> _getItems(List<Leader> leaders) {
+  List<Widget> _getItems(List<VoiceWayStep> steps) {
     final items = <Widget>[];
     final leaderItems = <Widget>[];
 
-    for (var i = 0; i < leaders.length; i++) {
-      leaderItems.add(LeaderItem(leaders[i], i + 1, wm));
+    for (var i = 0; i < steps.length; i++) {
+      leaderItems.add(StepItem(steps[i], wm, (i + 1) % 2 == 0));
     }
 
     items.addAll(leaderItems);
@@ -126,7 +123,7 @@ class Header extends StatelessWidget {
                 BoxShadow(
                     color: Color(0xFFE2E8F4),
                     offset: Offset(0, 10),
-                    blurRadius: 30)
+                    blurRadius: 10)
               ]),
           child: Column(
             children: <Widget>[
@@ -150,7 +147,7 @@ class Header extends StatelessWidget {
                               fontWeight: FontWeight.w500),
                         ),
                         Text(
-                          'Рейтинг лидеров:',
+                          'Ваш путь голоса:',
                           style: TextStyle(
                               color: text1,
                               fontSize: 14,
@@ -175,152 +172,96 @@ class Header extends StatelessWidget {
   }
 }
 
-class LeaderItem extends StatelessWidget {
-  final Leader leader;
-  final int place;
+class StepItem extends StatelessWidget {
+  final VoiceWayStep voiceWayStep;
   final ProfileScreenWidgetModel wm;
+  final bool isEven;
+  final bool isOdd;
 
-  LeaderItem(this.leader, this.place, this.wm);
+  StepItem(this.voiceWayStep, this.wm, this.isEven) : isOdd = !isEven;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
-      child: GestureDetector(
-        onTap: () {},
-        child: Container(
-          decoration: BoxDecoration(
-              border: Border(bottom: BorderSide(color: blue2, width: 1))),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Padding(
-                padding: EdgeInsets.only(top: 12),
-                child: LeaderItemAvatar(place),
-              ),
-              SizedBox(
-                width: 26,
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  SizedBox(
-                    height: 28,
-                  ),
-                  Text(
-                    leader.firstName + ' ' + leader.lastName,
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                      color: blue1,
-                      decoration: TextDecoration.underline
-                    ),
-                  ),
-                  SizedBox(
-                    height: 4,
-                  ),
-                  Row(
-                    children: <Widget>[
-                      SvgPicture.asset(icStar),
-                      Text(
-                        leader.voices + ' голосов',
-                        style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold,
-                            color: orange,
-                            decoration: TextDecoration.underline
-                        ),
-                      )
-                    ],
-                  ),
-                  SizedBox(
-                    height: 26,
-                  ),
-                  Container(
-                    padding: EdgeInsets.symmetric(vertical: 16, horizontal: 20),
-                    decoration: BoxDecoration(
-                      color: yellow1,
-                      borderRadius: BorderRadius.circular(50)
-                    ),
-                    child: Row(
-                      children: <Widget>[
-                        SvgPicture.asset(icStarOutlined),
-                        SizedBox(
-                          width: 4,
-                        ),
-                        Text(
-                          'Отдать голос',
-                          style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w600,
-                              color: orange,
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: 16,
-                  ),
-                ],
-              )
-            ],
-          ),
-        ),
-      ),
+      padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+      child: Row(
+          mainAxisAlignment: MainAxisAlignment.center, children: getChildren()),
     );
   }
-}
 
-class LeaderItemAvatar extends StatelessWidget {
-  final int place;
-  final avatars = <String>[
-    imgUserAvatar1,
-    imgUserAvatar2,
-    imgUserAvatar3,
-  ];
-  final random = Random();
+  List<Widget> getChildren() {
+    final widgets = <Widget>[];
 
-  LeaderItemAvatar(this.place);
+    if (isOdd) {
+      widgets.add(SvgPicture.asset(icStepArrowRight));
+      widgets.add(SizedBox(
+        width: 40,
+      ));
+    }
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 72,
-      height: 68,
-      child: Stack(
-        children: <Widget>[
-          Positioned(
-            bottom: 0,
-            right: 0,
-            child: CircleAvatar(
-              radius: 30,
-              child: Image.asset(avatars[random.nextInt(avatars.length)]),
+    widgets.add(Row(
+      children: <Widget>[
+        Image.asset(
+          voiceWayStep.toUserAvatar,
+          width: 60,
+          height: 60,
+        ),
+        SizedBox(
+          width: 12,
+        ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(
+              voiceWayStep.toUserName,
+              style: TextStyle(
+                  fontSize: 12,
+                  color: blue1,
+                  fontWeight: FontWeight.bold,
+                  decoration: TextDecoration.underline),
             ),
-          ),
-          Container(
-            width: 30,
-            height: 30,
-            decoration: ShapeDecoration(
-              color: orange,
-              shape: CircleBorder(),
-              shadows: [
-                BoxShadow(
-                    color: Color.fromRGBO(0, 0, 0, 0.16),
+            SizedBox(
+              height: 6,
+            ),
+            Container(
+              padding: EdgeInsets.symmetric(vertical: 10, horizontal: 18),
+              decoration: BoxDecoration(
+                  color: blue1,
+                  borderRadius: BorderRadius.circular(50),
+                  boxShadow: [BoxShadow(
+                    color: Color.fromRGBO(124, 145, 186, 0.39),
                     offset: Offset(0, 10),
-                    blurRadius: 10)
-              ],
-            ),
-            child: Center(
-              child: Text(
-                place.toString(),
-                style: TextStyle(
-                    color: white, fontSize: 14, fontWeight: FontWeight.bold),
+                    blurRadius: 20
+                  )]),
+              child: Row(
+                children: <Widget>[
+                  SvgPicture.asset(icComment),
+                  SizedBox(
+                    width: 4,
+                  ),
+                  Text(
+                    'Комментарий',
+                    style: TextStyle(
+                      fontSize: 10,
+                      fontWeight: FontWeight.w600,
+                      color: blue2,
+                    ),
+                  )
+                ],
               ),
             ),
-          )
-        ],
-      ),
-    );
+          ],
+        )
+      ],
+    ));
+
+    if (isEven) {
+      widgets.add(SizedBox(
+        width: 40,
+      ));
+      widgets.add(SvgPicture.asset(icStepArrowLeft));
+    }
+
+    return widgets;
   }
 }

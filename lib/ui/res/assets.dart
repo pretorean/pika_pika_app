@@ -19,6 +19,9 @@ const String icAddTab = '$_baseResPath/ic_add_tab.svg';
 const String icBigQuestion = '$_baseResPath/ic_big_question.svg';
 const String icStar = '$_baseResPath/ic_star.svg';
 const String icStarOutlined = '$_baseResPath/ic_star_outlined.svg';
+const String icStepArrowLeft = '$_baseResPath/ic_step_arrow_left.svg';
+const String icStepArrowRight = '$_baseResPath/ic_step_arrow_right.svg';
+const String icComment = '$_baseResPath/ic_comment.svg';
 
 const String imgImage16 = '$_baseResPath/image16.png';
 const String imgImage17 = '$_baseResPath/image17.png';
@@ -28,3 +31,5 @@ const String imgAvatar = '$_baseResPath/img_avatar.png';
 const String imgUserAvatar1 = '$_baseResPath/img_user_avatar_1.png';
 const String imgUserAvatar2 = '$_baseResPath/img_user_avatar_2.png';
 const String imgUserAvatar3 = '$_baseResPath/img_user_avatar_3.png';
+const String imgUserAvatar4 = '$_baseResPath/img_user_avatar_4.png';
+const String imgUserAvatar5 = '$_baseResPath/img_user_avatar_5.png';

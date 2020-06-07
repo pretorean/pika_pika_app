@@ -12,6 +12,8 @@ import 'package:pika_pika_app/interactor/leader/leader_interactor.dart';
 import 'package:pika_pika_app/interactor/leader/leader_repository/leader_repository.dart';
 import 'package:pika_pika_app/interactor/network/header_builder.dart';
 import 'package:pika_pika_app/interactor/network/status_mapper.dart';
+import 'package:pika_pika_app/interactor/profile/profile_interactor.dart';
+import 'package:pika_pika_app/interactor/profile/profile_repository/profile_repository.dart';
 import 'package:pika_pika_app/interactor/session/session_changed_interactor.dart';
 import 'package:pika_pika_app/interactor/token/auth_token_storage.dart';
 import 'package:pika_pika_app/ui/base/default_dialog_controller.dart';
@@ -34,6 +36,7 @@ class AppComponent implements Component {
   AuthInteractor authInteractor;
   InitiativeInteractor initiativeInteractor;
   LeaderInteractor leaderInteractor;
+  ProfileInteractor profileInteractor;
 
   AppComponent(BuildContext context) {
     rebuildDependencies();
@@ -60,6 +63,10 @@ class AppComponent implements Component {
 
     leaderInteractor = LeaderInteractor(
       LeaderRepository(http)
+    );
+
+    profileInteractor = ProfileInteractor(
+      ProfileRepository(http)
     );
 
     wmDependencies = WidgetModelDependencies(

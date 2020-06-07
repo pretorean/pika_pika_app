@@ -125,7 +125,7 @@ class Header extends StatelessWidget {
                 BoxShadow(
                     color: Color(0xFFE2E8F4),
                     offset: Offset(0, 10),
-                    blurRadius: 30)
+                    blurRadius: 10)
               ]),
           child: Column(
             children: <Widget>[
