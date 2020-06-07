@@ -94,10 +94,12 @@ class BottomNavigation extends StatelessWidget {
         navigator.pushNamed(Router.initiativesScreen);
         break;
       case HomeTab.leaders:
+        navigator.pushNamed(Router.leadersScreen);
         break;
       case HomeTab.add:
         break;
       case HomeTab.profile:
+        navigator.pushNamed(Router.profileScreen);
         break;
       case HomeTab.map:
         break;

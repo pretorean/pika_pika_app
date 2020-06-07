@@ -24,7 +24,8 @@ const Color colorAccent = _purple,
     yellow1 = _capeHoney,
     lavenderColor = _lavender,
     screaminGreenColor = _screaminGreen,
-    ghostWhiteColor = _ghostWhite;
+    ghostWhiteColor = _ghostWhite,
+    screenBackground = _aliceBlue2;
 
 // Основная палитра (http://www.color-blindness.com/color-name-hue/)
 const Color _oxxfordBlue = Color(0xFF263238),
@@ -37,6 +38,7 @@ const Color _oxxfordBlue = Color(0xFF263238),
     _grey = Color(0x8A000000),
     _mayaBlue = Color(0xFF669AFE),
     _aliceBlue = Color(0xFFDBE8FF),
+    _aliceBlue2 = Color(0xFFEBF7FF),
     _midnightBlue = Color(0xFF141F48),
     _slateGrey = Color(0xFF757A93),
     _capeHoney = Color(0xFFFFE6A5),
@@ -45,3 +47,4 @@ const Color _oxxfordBlue = Color(0xFF263238),
     _lavender = Color(0xFFE7F0FA),
     _screaminGreen = Color(0xFF63FF8F),
     _ghostWhite = Color(0xFFF5F7FF);
+
