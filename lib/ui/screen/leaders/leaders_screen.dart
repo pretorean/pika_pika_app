@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -195,7 +193,7 @@ class LeaderItem extends StatelessWidget {
             children: <Widget>[
               Padding(
                 padding: EdgeInsets.only(top: 12),
-                child: LeaderItemAvatar(place),
+                child: LeaderItemAvatar(place, leader.avatar),
               ),
               SizedBox(
                 width: 26,
@@ -273,14 +271,10 @@ class LeaderItem extends StatelessWidget {
 
 class LeaderItemAvatar extends StatelessWidget {
   final int place;
-  final avatars = <String>[
-    imgUserAvatar1,
-    imgUserAvatar2,
-    imgUserAvatar3,
-  ];
-  final random = Random();
+  final String avatar;
 
-  LeaderItemAvatar(this.place);
+
+  LeaderItemAvatar(this.place, this.avatar);
 
   @override
   Widget build(BuildContext context) {
@@ -294,7 +288,7 @@ class LeaderItemAvatar extends StatelessWidget {
             right: 0,
             child: CircleAvatar(
               radius: 30,
-              child: Image.asset(avatars[random.nextInt(avatars.length)]),
+              child: Image.asset(avatar),
             ),
           ),
           Container(
