@@ -10,6 +10,7 @@ import 'package:pika_pika_app/ui/screen/initiative_detail/initiative_detail_rout
 import 'package:pika_pika_app/ui/screen/initiatives/initiatives_route.dart';
 import 'package:pika_pika_app/ui/screen/leaders/leaders_route.dart';
 import 'package:pika_pika_app/ui/screen/login/login_route.dart';
+import 'package:pika_pika_app/ui/screen/profile/profile_route.dart';
 import 'package:pika_pika_app/ui/screen/register/register_route.dart';
 import 'package:pika_pika_app/ui/screen/splash_screen/splash_route.dart';
 import 'package:pika_pika_app/ui/screen/welcome_screen/welcome_route.dart';
@@ -24,7 +25,8 @@ class Router {
   static const String loginScreen = '/login';
   static const String initiativesScreen = '/initiatives';
   static const String initiativesDetailScreen = '/initiativeDetail';
-  static const String leadersScreen = '/leadersScreen';
+  static const String leadersScreen = '/leaders';
+  static const String profileScreen = '/profile';
 
   static final Map<String, Route Function(dynamic data)> routes = {
     Router.root: (data) => WelcomeScreenRoute(),
@@ -33,7 +35,8 @@ class Router {
     Router.registerScreen: (data) => RegisterScreenRoute(),
     Router.initiativesScreen: (data) => InitiativesScreenRoute(),
     Router.initiativesDetailScreen: (data) => InitiativeDetailScreenRoute(postId: data),
-    Router.leadersScreen: (data) => LeadersScreenRoute()
+    Router.leadersScreen: (data) => LeadersScreenRoute(),
+    Router.profileScreen: (data) => ProfileScreenRoute()
   };
 }
 
