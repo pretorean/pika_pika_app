@@ -4,97 +4,72 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:injector/injector.dart';
 import 'package:pika_pika_app/domain/leader.dart';
-import 'package:pika_pika_app/ui/common/widgets/bottom_navigation.dart';
 import 'package:pika_pika_app/ui/res/assets.dart';
 import 'package:pika_pika_app/ui/res/colors.dart';
 import 'package:surf_mwwm/surf_mwwm.dart';
 
-import 'di/leaders_screen_component.dart';
-import 'leaders_wm.dart';
+import 'di/leader_details_screen_component.dart';
+import 'leader_details_wm.dart';
 
-class LeadersScreen extends MwwmWidget<LeadersScreenComponent> {
-  LeadersScreen([
-    WidgetModelBuilder widgetModelBuilder = createLeadersScreenWidgetModel,
-  ]) : super(
-          dependenciesBuilder: (context) => LeadersScreenComponent(context),
-          widgetStateBuilder: () => _LeadersScreenState(),
+class LeaderDetailsScreen extends MwwmWidget<LeaderDetailsScreenComponent> {
+  LeaderDetailsScreen({
+    WidgetModelBuilder widgetModelBuilder =
+        createLeaderDetailsScreenWidgetModel,
+    String leaderId,
+  }) : super(
+          dependenciesBuilder: (context) =>
+              LeaderDetailsScreenComponent(context, leaderId),
+          widgetStateBuilder: () => _LeaderDetailsScreenState(),
           widgetModelBuilder: widgetModelBuilder,
         );
 }
 
-class _LeadersScreenState extends WidgetState<LeadersScreenWidgetModel> {
+class _LeaderDetailsScreenState
+    extends WidgetState<LeaderDetailsScreenWidgetModel> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: screenBackground,
-      key: Injector.of<LeadersScreenComponent>(context).component.scaffoldKey,
+      key: Injector.of<LeaderDetailsScreenComponent>(context)
+          .component
+          .scaffoldKey,
       body: SafeArea(child: _buildBody()),
     );
   }
 
   Widget _buildBody() {
-    return Stack(
-      children: <Widget>[
-        CustomScrollView(
-          slivers: <Widget>[
-            SliverPersistentHeader(
-                pinned: true, delegate: HeaderSliverDelegate(wm)),
-            SliverPadding(padding: EdgeInsets.only(top: 5)),
-            EntityStateBuilder<List<Leader>>(
-              streamedState: wm.leadersState,
-              loadingChild: SliverToBoxAdapter(
-                child: Center(
-                  child: CircularProgressIndicator(),
-                ),
+    return EntityStateBuilder<Leader>(
+        streamedState: wm.dataState,
+        child: (context, leader) {
+          return CustomScrollView(
+            slivers: <Widget>[
+              SliverPersistentHeader(
+                pinned: true,
+                delegate: HeaderSliverDelegate(wm, leader),
               ),
-              errorChild: SliverToBoxAdapter(
-                child: Container(),
-              ),
-              child: (context, leaders) {
-                return SliverList(
-                  delegate: SliverChildListDelegate(_getItems(leaders)),
-                );
-              },
-            )
-          ],
-        ),
-        BottomNavigation(HomeTab.leaders)
-      ],
-    );
-  }
-
-  List<Widget> _getItems(List<Leader> leaders) {
-    final items = <Widget>[];
-    final leaderItems = <Widget>[];
-
-    for (var i = 0; i < leaders.length; i++) {
-      leaderItems.add(LeaderItem(leaders[i], i + 1, wm));
-    }
-
-    items.addAll(leaderItems);
-    items.add(Container(
-      height: 115,
-    ));
-    return items;
+            ],
+          );
+        });
   }
 }
 
 class HeaderSliverDelegate extends SliverPersistentHeaderDelegate {
-  final LeadersScreenWidgetModel wm;
+  final LeaderDetailsScreenWidgetModel wm;
+  final Leader leader;
 
-  HeaderSliverDelegate(this.wm);
+  HeaderSliverDelegate(this.wm, this.leader);
 
   @override
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return Header(wm);
+    return Header(wm, leader);
   }
 
   @override
-  double get maxExtent => 90;
+  double get maxExtent => 300;
 
   @override
-  double get minExtent => 90;
+  double get minExtent => 300;
 
   @override
   bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) {
@@ -103,66 +78,113 @@ class HeaderSliverDelegate extends SliverPersistentHeaderDelegate {
 }
 
 class Header extends StatelessWidget {
-  final LeadersScreenWidgetModel wm;
+  final LeaderDetailsScreenWidgetModel wm;
+  final Leader leader;
 
-  Header(this.wm);
+  Header(this.wm, this.leader);
 
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
         Container(
-          padding: EdgeInsets.only(left: 16, right: 16, top: 16, bottom: 24),
           decoration: BoxDecoration(
-              color: white,
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(30),
-                bottomRight: Radius.circular(30),
-              ),
-              boxShadow: [
-                BoxShadow(
-                    color: Color(0xFFE2E8F4),
-                    offset: Offset(0, 10),
-                    blurRadius: 10)
-              ]),
+            color: blue1,
+            boxShadow: [
+              BoxShadow(
+                blurRadius: 60,
+                offset: Offset(0, 20),
+                color: Color(0xFFA5B3CE),
+              )
+            ],
+            borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(30),
+              bottomRight: Radius.circular(30),
+            ),
+          ),
           child: Column(
             children: <Widget>[
+              SizedBox(
+                height: 24,
+              ),
+              Image.asset(
+                leader.avatar,
+                width: 100,
+                height: 100,
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Text(
+                leader.firstName + ' ' + leader.lastName,
+                style: TextStyle(
+                    fontWeight: FontWeight.bold, fontSize: 14, color: blue2),
+              ),
+              SizedBox(
+                height: 4,
+              ),
               Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  CircleAvatar(
-                    radius: 20,
-                    child: Image.asset(imgAvatar),
+                  Text(
+                    'Рейтинг:',
+                    style: TextStyle(
+                        color: white,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500),
                   ),
-                  SizedBox(width: 18),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                  SizedBox(
+                    width: 8,
+                  ),
+                  SvgPicture.asset(icStar),
+                  SizedBox(
+                    width: 4,
+                  ),
+                  Text(
+                    leader.voices + ' голосов',
+                    style: TextStyle(
+                      decoration: TextDecoration.underline,
+                      color: orange,
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                    padding: EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+                    decoration: BoxDecoration(
+                        color: yellow1,
+                        borderRadius: BorderRadius.circular(50)
+                    ),
+                    child: Row(
                       children: <Widget>[
-                        Text(
-                          'Здравствуйте, Максим',
-                          style: TextStyle(
-                              color: blue1,
-                              fontSize: 12,
-                              fontWeight: FontWeight.w500),
+                        SvgPicture.asset(icStarOutlined),
+                        SizedBox(
+                          width: 4,
                         ),
                         Text(
-                          'Рейтинг лидеров:',
+                          'Отдать голос',
                           style: TextStyle(
-                              color: text1,
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold),
-                        ),
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                            color: orange,
+                          ),
+                        )
                       ],
                     ),
                   ),
-                  SizedBox(width: 10),
-                  SvgPicture.asset(icSearch),
-                  SizedBox(width: 10),
-                  SvgPicture.asset(icQrCode),
-                  SizedBox(width: 10),
-                  SvgPicture.asset(icSettings),
                 ],
+              ),
+              SizedBox(
+                height: 24,
               ),
             ],
           ),
@@ -175,7 +197,7 @@ class Header extends StatelessWidget {
 class LeaderItem extends StatelessWidget {
   final Leader leader;
   final int place;
-  final LeadersScreenWidgetModel wm;
+  final LeaderDetailsScreenWidgetModel wm;
 
   LeaderItem(this.leader, this.place, this.wm);
 
@@ -184,9 +206,7 @@ class LeaderItem extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
       child: GestureDetector(
-        onTap: () {
-          wm.openDetailAction.accept(leader.id);
-        },
+        onTap: () {},
         child: Container(
           decoration: BoxDecoration(
               border: Border(bottom: BorderSide(color: blue2, width: 1))),
@@ -209,11 +229,10 @@ class LeaderItem extends StatelessWidget {
                   Text(
                     leader.firstName + ' ' + leader.lastName,
                     style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                      color: blue1,
-                      decoration: TextDecoration.underline
-                    ),
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: blue1,
+                        decoration: TextDecoration.underline),
                   ),
                   SizedBox(
                     height: 4,
@@ -227,8 +246,7 @@ class LeaderItem extends StatelessWidget {
                             fontSize: 12,
                             fontWeight: FontWeight.bold,
                             color: orange,
-                            decoration: TextDecoration.underline
-                        ),
+                            decoration: TextDecoration.underline),
                       )
                     ],
                   ),
@@ -238,9 +256,8 @@ class LeaderItem extends StatelessWidget {
                   Container(
                     padding: EdgeInsets.symmetric(vertical: 16, horizontal: 20),
                     decoration: BoxDecoration(
-                      color: yellow1,
-                      borderRadius: BorderRadius.circular(50)
-                    ),
+                        color: yellow1,
+                        borderRadius: BorderRadius.circular(50)),
                     child: Row(
                       children: <Widget>[
                         SvgPicture.asset(icStarOutlined),
@@ -250,9 +267,9 @@ class LeaderItem extends StatelessWidget {
                         Text(
                           'Отдать голос',
                           style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w600,
-                              color: orange,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                            color: orange,
                           ),
                         )
                       ],
@@ -274,7 +291,6 @@ class LeaderItem extends StatelessWidget {
 class LeaderItemAvatar extends StatelessWidget {
   final int place;
   final String avatar;
-
 
   LeaderItemAvatar(this.place, this.avatar);
 
