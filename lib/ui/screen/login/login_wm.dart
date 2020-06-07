@@ -85,7 +85,7 @@ class LoginScreenWidgetModel extends WidgetModel {
         loadState.accept(false);
         _tokenStorage.saveAuthorization(token);
         if (_tokenStorage.hasToken) {
-          _openScreen(Router.root);
+          _openScreen(Router.initiativesScreen);
         }
       },
       onError: (e) {
