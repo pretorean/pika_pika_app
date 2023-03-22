@@ -14,10 +14,10 @@ dependencies:
   logger:
     path: ../logger
 
-  dio: ^3.0.9
-  http: ^0.12.1
-  http_parser: ^3.1.4
-  rxdart: ^0.24.1
+  dio: ">=3.0.9 <6.0.0"
+  http: ">=0.12.1 <0.14.0"
+  http_parser: ">=3.1.4 <5.0.0"
+  rxdart: ">=0.24.1 <0.28.0"
 
 dev_dependencies:
   flutter_test:
